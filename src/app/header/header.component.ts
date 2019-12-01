@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from '../auth/token-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  private roles: string[];
+
+  constructor(private tokenStorage: TokenStorageService) { }
 
   ngOnInit() {
+    if (this.tokenStorage.getToken()) {
+      this.roles = this.tokenStorage.getAuthorities();
+    }
+  }
+
+  logout() {
+    this.tokenStorage.signOut();
+    window.location.reload();
+  }
+
+  checkRole(role: string): boolean {
+    if (this.roles) {
+      return this.roles.some((i) => i === role);
+    }
   }
 
 }

@@ -4,6 +4,7 @@ import {
 } from '../service/http-series-properties.service';
 import { Chart } from 'chart.js';
 import 'chartjs-plugin-zoom';
+import { TokenStorageService } from '../auth/token-storage.service';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class SeriesPropertiesComponent implements OnInit {
   datasets = [];
 
   constructor(
-    private httpSeriesPropertiesService: HttpSeriesPropertiesService
+    private httpSeriesPropertiesService: HttpSeriesPropertiesService,
+    private token: TokenStorageService
   ) { }
 
   ngOnInit() {

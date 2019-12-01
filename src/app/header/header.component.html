@@ -3,9 +3,13 @@
     <div><a href="/" class="navbar-brand">Auto Approximation App</a></div>
     
     <ul class="navbar-nav">
-      <li><a  routerLink="/series-properties" class="nav-link">Series properties</a></li>
+      <li *ngIf="checkRole('USER')">
+        <a  routerLink="/series-properties" class="nav-link">Series properties</a></li>
+      <li *ngIf="!roles">
+        <a  routerLink="/login" class="nav-link">Login</a></li>
     
     </ul>
+    <button *ngIf="roles" class="btn btn-secondary" (click)="logout()">Logout</button>
     </nav>
     
 </header>
