@@ -1,15 +1,35 @@
 <header>
-    <nav class ="navbar navbar-expand-md navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div><a href="/" class="navbar-brand">Auto Approximation App</a></div>
-    
+
     <ul class="navbar-nav">
-      <li *ngIf="checkRole('USER')">
-        <a  routerLink="/series-properties" class="nav-link">Series properties</a></li>
-      <li *ngIf="!roles">
-        <a  routerLink="/login" class="nav-link">Login</a></li>
-    
+      <li *ngIf="roles.includes('USER')">
+        <a [routerLink]="['/series-properties']" class="nav-link" routerLinkActive="router-link-active">Series
+          properties</a>
+      </li>
+      <li *ngIf="roles.includes('USER') || roles.includes('ADMIN')">
+        <a [routerLink]="['/data-series-file-list']" class="nav-link" routerLinkActive="router-link-active">File
+          list</a>
+      </li>
+      <li *ngIf="roles.includes('USER') || roles.includes('ADMIN')">
+        <a [routerLink]="['/series-properties-list']" class="nav-link" routerLinkActive="router-link-active">Series
+          properties list</a>
+      </li>
+      <li *ngIf="roles.includes('ADMIN')">
+          <a [routerLink]="['/user-list']" class="nav-link" routerLinkActive="router-link-active">User list</a>
+        </li>
+      <li *ngIf="roles.includes('ADMIN')">
+        <a [routerLink]="['/add-user']" class="nav-link" routerLinkActive="router-link-active">Add user</a>
+      </li>
+      <li *ngIf="!isLogged">
+        <a [routerLink]="['/login']" class="nav-link">Login</a>
+      </li>
+      
     </ul>
-    <button *ngIf="roles" class="btn btn-secondary" (click)="logout()">Logout</button>
-    </nav>
+    <div class="float-right" *ngIf="isLogged" >
+      <button class="btn btn-secondary" (click)="logout()">Logout</button>
+    </div>
     
+  </nav>
+
 </header>

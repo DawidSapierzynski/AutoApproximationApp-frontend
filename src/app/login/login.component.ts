@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthService } from '../auth/auth.service';
-import { TokenStorageService } from '../auth/token-storage.service';
-import { AuthLoginInfo } from '../auth/login-info';
+import { AuthService } from '../service/auth/auth.service';
+import { TokenStorageService } from '../service/auth/token-storage.service';
+import { AuthLoginInfo } from '../dto/AuthLoginInfo';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,19 +11,25 @@ import { AuthLoginInfo } from '../auth/login-info';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  returnUrl;
   form: any = {};
   isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
-  roles: string[] = [];
   private loginInfo: AuthLoginInfo;
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
+  constructor(private authService: AuthService, private tokenStorage: TokenStorageService,
+    private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    if (this.tokenStorage.getToken()) {
-      this.isLoggedIn = true;
-      this.roles = this.tokenStorage.getAuthorities();
+    this.route.queryParams
+      .subscribe(params => {
+        this.returnUrl = params.returnUrl;
+      });
+
+    const token = this.tokenStorage.getToken();
+    if (token) {
+      this.tokenStorage.signOut();
     }
   }
 
@@ -41,8 +48,8 @@ export class LoginComponent implements OnInit {
 
         this.isLoginFailed = false;
         this.isLoggedIn = true;
-        this.roles = this.tokenStorage.getAuthorities();
-        this.reloadPage();
+
+        this.redirectPage('/');
       },
       error => {
         console.log(error);
@@ -50,9 +57,10 @@ export class LoginComponent implements OnInit {
         this.isLoginFailed = true;
       }
     );
+
   }
 
-  reloadPage() {
-    window.location.reload();
+  redirectPage(path: string) {
+    this.router.navigate([path]);
   }
 }

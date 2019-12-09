@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  HttpSeriesPropertiesService, SeriesProperties, ChosenMethod, ApproximationForm
-} from '../service/http-series-properties.service';
+  HttpSeriesPropertiesService} from '../service/series-properties/http-series-properties.service';
+import { ApproximationDTO } from '../dto/ApproximationDTO';
+import { ChosenMethodDTO } from '../dto/ChosenMethodDTO';
+import { SeriesPropertiesDTO } from '../dto/SeriesPropertiesDTO';
 import { Chart } from 'chart.js';
 import 'chartjs-plugin-zoom';
-import { TokenStorageService } from '../auth/token-storage.service';
+import { TokenStorageService } from '../service/auth/token-storage.service';
 
 
 @Component({
@@ -14,10 +16,10 @@ import { TokenStorageService } from '../auth/token-storage.service';
 })
 export class SeriesPropertiesComponent implements OnInit {
 
-  seriesProperties: SeriesProperties;
+  seriesProperties: SeriesPropertiesDTO;
   scatterChart: Chart;
-  chosenMethods: ChosenMethod[];
-  approximationForm: ApproximationForm;
+  chosenMethods: ChosenMethodDTO[];
+  approximationForm: ApproximationDTO;
   precision: number;
   seriesDatesFile: File;
 
@@ -34,10 +36,16 @@ export class SeriesPropertiesComponent implements OnInit {
   ngOnInit() {
   }
 
+  handleImages(event) {
+    if (event.target.files && event.target.files.length > 0) {
+      this.seriesDatesFile = event.target.files[0];
+    }
+  }
+
   createSeriesProperties(): void {
     this.httpSeriesPropertiesService.uploadDataSeriesFile(this.seriesDatesFile).subscribe(
-      dateSeriesId => {
-        this.httpSeriesPropertiesService.calculateSeriesProperties(this.precision, dateSeriesId)
+      dateSeriesFile => {
+        this.httpSeriesPropertiesService.calculateSeriesProperties(this.precision, dateSeriesFile.id)
           .subscribe(data => {
             this.seriesProperties = data;
             this.datasets.push({
@@ -47,36 +55,12 @@ export class SeriesPropertiesComponent implements OnInit {
               backgroundColor: 'red',
               borderWidth: 1.5
             });
-            this.scatterChart = new Chart('scatterChart', {
-              type: 'scatter',
-              data: {
-                datasets: this.datasets
-              },
-              options: {
-                scales: {
-                  xAxes: [{
-                    type: 'linear',
-                    position: 'bottom'
-                  }]
-                },
-                plugins: {
-                  zoom: {
-                    pan: {
-                      enabled: true,
-                      mode: 'xy'
-                    },
-                    zoom: {
-                      enabled: true,
-                      mode: 'xy'
-                    }
-                  }
-                },
-                responsive: true
-              }
-            });
+            this.scatterChart = this.getChart(this.datasets);
           }, error => {
-            alert(error);
+            alert(`${error.status}: ${error.message}`);
           });
+      }, error => {
+        alert(`${error.status}: ${error.message}`);
       }
     );
 
@@ -91,12 +75,12 @@ export class SeriesPropertiesComponent implements OnInit {
       });
   }
 
-  doApproximations(chosenMethod: ChosenMethod): void {
+  doApproximations(chosenMethod: ChosenMethodDTO): void {
     this.httpSeriesPropertiesService.doApproximations(chosenMethod, this.seriesProperties.points).subscribe(
       data => {
         this.approximationForm = data;
         this.datasets.push({
-          label: chosenMethod.method.toString + '(' + chosenMethod.degree + ')',
+          label: chosenMethod.method + '(' + chosenMethod.degree + ')',
           data: this.approximationForm.points,
           borderColor: this.colors[this.nbColor],
           backgroundColor: this.colors[this.nbColor],
@@ -116,5 +100,35 @@ export class SeriesPropertiesComponent implements OnInit {
     if (this.nbColor > 2) {
       this.nbColor = 0;
     }
+  }
+
+  getChart(data) {
+    return new Chart('scatterChart', {
+      type: 'scatter',
+      data: {
+        datasets: data
+      },
+      options: {
+        scales: {
+          xAxes: [{
+            type: 'linear',
+            position: 'bottom'
+          }]
+        },
+        plugins: {
+          zoom: {
+            pan: {
+              enabled: true,
+              mode: 'xy'
+            },
+            zoom: {
+              enabled: true,
+              mode: 'xy'
+            }
+          }
+        },
+        responsive: true
+      }
+    });
   }
 }

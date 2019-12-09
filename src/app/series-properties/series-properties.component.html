@@ -3,7 +3,7 @@
   <form>
     <div class="form-group" required>
       <label for="seriesDatesFile">Series date file:</label>
-      <input type="file" [(ngModel)]="seriesDatesFile" placeholder="SeriesDatesFile" name="seriesDatesFile"
+      <input type="file" (change)='handleImages($event)' placeholder="SeriesDatesFile" name="seriesDatesFile"
         class="form-control" id="seriesDatesFile" accept=".csv,.txt" required>
     </div>
 

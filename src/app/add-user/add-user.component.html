@@ -1,0 +1,56 @@
+<div class="col-md-4">
+    <h2 class="text-center">Send Series Date</h2>
+    <form>
+      <div class="form-group" required>
+        <label for="firstName">First name:</label>
+        <input type="text" placeholder="firstName" name="firstName" [(ngModel)]="signUpInfo.firstName"
+          class="form-control" id="firstName" required>
+      </div>
+      <div class="form-group" required>
+        <label for="lastName">Last name:</label>
+        <input type="text" placeholder="lastName" name="lastName" [(ngModel)]="signUpInfo.lastName"
+          class="form-control" id="lastName" required>
+      </div>
+      <div class="form-group" required>
+        <label for="login">Login:</label>
+        <input type="text" placeholder="login" name="login" [(ngModel)]="signUpInfo.login"
+          class="form-control" id="login" required>
+      </div>
+      <div class="form-group" required>
+        <label for="password">Password:</label>
+        <input type="password" placeholder="password" name="password" [(ngModel)]="signUpInfo.password"
+          class="form-control" id="password" required>
+      </div>
+      <div class="form-group" required>
+        <label for="email">Email:</label>
+        <input type="email" placeholder="email" name="email" [(ngModel)]="signUpInfo.email"
+          class="form-control" id="email" required>
+      </div>
+      <div class="form-group" required>
+        <label>Roles:</label>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let roleUserDTO of roleUserDTOList">
+                    <td>{{roleUserDTO.id}}</td>
+                    <td>{{roleUserDTO.code}}</td>
+                    <td>{{roleUserDTO.name}}</td>
+                    <td><input type="checkbox" name={{roleUserDTO.code}} (click)="selected(roleUserDTO)" value=roleUserDTO></td>
+                </tr>
+            </tbody>
+        </table>
+        
+      </div>
+      <br>
+      <button class="btn btn-success" (click)="addUser() " formmethod="POST">Add user</button>
+    </form>
+    <br>
+    <br>
+  </div>
