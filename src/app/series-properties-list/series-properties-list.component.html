@@ -24,7 +24,6 @@
                 <td *ngIf="checkRoles('ADMIN')">{{seriesPropertiesDTO.deleted}}</td>
                 <td>
                     <button [routerLink]="['/series-properties-detail', seriesPropertiesDTO.id]" class="btn btn-info">Detail</button>
-                    <button *ngIf="checkRoles('USER')" class="btn btn-success">Create</button>
                     <button *ngIf="checkRoles('ADMIN')" class="btn btn-danger" disabled=!{{seriesPropertiesDTO.deleted}}>Deleted</button>
                 </td>
             </tr>

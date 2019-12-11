@@ -16,6 +16,7 @@ import { SeriesPropertiesListUserComponent } from './series-properties-list/seri
 import { AddUserComponent } from './add-user/add-user.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { UploadFileComponent } from './upload-file/upload-file.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbModule
   ],
   providers: [
     {
