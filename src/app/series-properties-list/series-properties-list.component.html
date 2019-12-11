@@ -1,4 +1,4 @@
-<div class="col-md-8">
+<div class="col-md-9">
     <h3>List:</h3>
     <table class="table table-striped">
         <thead>
@@ -23,6 +23,7 @@
                 <td>{{seriesPropertiesDTO.precision}}</td>
                 <td *ngIf="checkRoles('ADMIN')">{{seriesPropertiesDTO.deleted}}</td>
                 <td>
+                    <button [routerLink]="['/series-properties-detail', seriesPropertiesDTO.id]" class="btn btn-info">Detail</button>
                     <button *ngIf="checkRoles('USER')" class="btn btn-success">Create</button>
                     <button *ngIf="checkRoles('ADMIN')" class="btn btn-danger" disabled=!{{seriesPropertiesDTO.deleted}}>Deleted</button>
                 </td>

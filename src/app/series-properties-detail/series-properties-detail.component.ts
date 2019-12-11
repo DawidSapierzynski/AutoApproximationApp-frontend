@@ -1,27 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  HttpSeriesPropertiesService} from '../service/series-properties/http-series-properties.service';
+import { ActivatedRoute,  Params } from '@angular/router';
+import { HttpSeriesPropertiesService } from '../service/series-properties/http-series-properties.service';
 import { ApproximationDTO } from '../dto/ApproximationDTO';
 import { ChosenMethodDTO } from '../dto/ChosenMethodDTO';
 import { SeriesPropertiesDTO } from '../dto/SeriesPropertiesDTO';
 import { Chart } from 'chart.js';
 import 'chartjs-plugin-zoom';
-import { TokenStorageService } from '../service/auth/token-storage.service';
 
 
 @Component({
   selector: 'app-series-properties',
-  templateUrl: './series-properties.component.html',
-  styleUrls: ['./series-properties.component.css']
+  templateUrl: './series-properties-detail.component.html',
+  styleUrls: ['./series-properties-detail.component.css']
 })
-export class SeriesPropertiesComponent implements OnInit {
+export class SeriesPropertiesDetailComponent implements OnInit {
 
   seriesProperties: SeriesPropertiesDTO;
   scatterChart: Chart;
   chosenMethods: ChosenMethodDTO[];
   approximationForm: ApproximationDTO;
-  precision: number;
-  seriesDatesFile: File;
 
   colors: string[] = ['yellow', 'green', 'blue', 'black'];
   nbColor = 0;
@@ -29,41 +26,30 @@ export class SeriesPropertiesComponent implements OnInit {
   datasets = [];
 
   constructor(
-    private httpSeriesPropertiesService: HttpSeriesPropertiesService,
-    private token: TokenStorageService
+    private route: ActivatedRoute,
+    private httpSeriesPropertiesService: HttpSeriesPropertiesService
   ) { }
 
   ngOnInit() {
-  }
-
-  handleImages(event) {
-    if (event.target.files && event.target.files.length > 0) {
-      this.seriesDatesFile = event.target.files[0];
-    }
-  }
-
-  createSeriesProperties(): void {
-    this.httpSeriesPropertiesService.uploadDataSeriesFile(this.seriesDatesFile).subscribe(
-      dateSeriesFile => {
-        this.httpSeriesPropertiesService.calculateSeriesProperties(this.precision, dateSeriesFile.id)
-          .subscribe(data => {
+    this.route.params.subscribe(
+      (queryparams: Params) => {
+        this.httpSeriesPropertiesService.getSeriesProperties(queryparams.id).subscribe(
+          data => {
             this.seriesProperties = data;
-            this.datasets.push({
+            this.chosenMethods = undefined;
+            this.datasets = [{
               label: 'Points',
               data: data.points,
               borderColor: 'red',
               backgroundColor: 'red',
               borderWidth: 1.5
-            });
+            }];
             this.scatterChart = this.getChart(this.datasets);
           }, error => {
             alert(`${error.status}: ${error.message}`);
-          });
-      }, error => {
-        alert(`${error.status}: ${error.message}`);
-      }
-    );
-
+          }
+        );
+      });
   }
 
   selectMethods(): void {

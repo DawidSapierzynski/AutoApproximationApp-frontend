@@ -4,8 +4,7 @@
 
     <ul class="navbar-nav">
       <li *ngIf="roles.includes('USER')">
-        <a [routerLink]="['/series-properties']" class="nav-link" routerLinkActive="router-link-active">Series
-          properties</a>
+        <a [routerLink]="['/upload-file']" class="nav-link" routerLinkActive="router-link-active">Upload file</a>
       </li>
       <li *ngIf="roles.includes('USER') || roles.includes('ADMIN')">
         <a [routerLink]="['/data-series-file-list']" class="nav-link" routerLinkActive="router-link-active">File

@@ -25,7 +25,7 @@ export class HttpSeriesPropertiesService {
     return this.httpClient.post<DataSeriesFileDTO>(endpoint, uploadData);
   }
 
-  public calculateSeriesProperties(precision: number, dataSeriesId: number) {
+  public postSeriesProperties(precision: number, dataSeriesId: number) {
     const endpoint = '/api/seriesProperties';
     const uploadData = new FormData();
 
@@ -58,5 +58,11 @@ export class HttpSeriesPropertiesService {
     const endpoint = '/api/seriesProperties';
 
     return this.httpClient.get<SeriesPropertiesDTO[]>(endpoint);
+  }
+
+  public getSeriesProperties(id: string) {
+    const endpoint = '/api/seriesProperties/' + id;
+
+    return this.httpClient.get<SeriesPropertiesDTO>(endpoint);
   }
 }

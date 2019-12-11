@@ -1,40 +1,12 @@
-<div class="col-md-6" *ngIf="!seriesProperties">
-  <h2 class="text-center">Send Series Date</h2>
-  <form>
-    <div class="form-group" required>
-      <label for="seriesDatesFile">Series date file:</label>
-      <input type="file" (change)='handleImages($event)' placeholder="SeriesDatesFile" name="seriesDatesFile"
-        class="form-control" id="seriesDatesFile" accept=".csv,.txt" required>
-    </div>
-
-    <div class="form-group" required>
-      <label for="precision">Precision:</label>
-      <input type="range" list="tickmarks" min="1" max="5" step="1" value="3" [(ngModel)]="precision"
-        placeholder="precision" name="Precision" class="form-control" id="precision" required>
-      <datalist id="tickmarks">
-        <option value="1" label="Smoothing"></option>
-        <option value="2"></option>
-        <option value="3"></option>
-        <option value="4"></option>
-        <option value="5" label="Accuracy"></option>
-      </datalist>
-    </div>
-
-    <button class="btn btn-success" (click)="createSeriesProperties() " formmethod="POST">Send</button>
-  </form>
-  <br>
-  <br>
-</div>
-
 <div style="text-align:center">
   <br>
-  <h3 *ngIf="seriesProperties">Chart with marked points:</h3>
+  <h3>Chart with marked points:</h3>
   <canvas id="scatterChart"></canvas>
   <br>
   <br>
 </div>
 
-<div class="col-md-6" *ngIf="seriesProperties && !chosenMethods">
+<div class="col-md-6" *ngIf="!chosenMethods">
   <h3>Properties of your data series:</h3>
   <table class="table table-striped">
     <thead>
@@ -76,7 +48,7 @@
   </table>
   <br>
   <br>
-  <button class="btn btn-success" (click)="selectMethods()" >Automatically choose the approximation method</button>
+  <button class="btn btn-success" (click)="selectMethods()">Automatically choose the approximation method</button>
   <br>
   <br>
 </div>
@@ -95,8 +67,9 @@
       <tr *ngFor="let chosenMethod of chosenMethods">
         <td>{{chosenMethod.method}}</td>
         <td>{{chosenMethod.degree}}</td>
-        <td><button class="btn btn-success" disabled={{chosenMethod.isUsed}} (click)="doApproximations(chosenMethod)">Choose</button></td>
-        </tr>
+        <td><button class="btn btn-success" disabled={{chosenMethod.isUsed}}
+            (click)="doApproximations(chosenMethod)">Choose</button></td>
+      </tr>
     </tbody>
   </table>
   <br>
