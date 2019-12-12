@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DataSeriesFileListUserComponent } from './data-series-file-list-user.component';
+import { DataSeriesFileListComponent } from './data-series-file-list.component';
 
 describe('DataSeriesFileListUserComponent', () => {
-  let component: DataSeriesFileListUserComponent;
-  let fixture: ComponentFixture<DataSeriesFileListUserComponent>;
+  let component: DataSeriesFileListComponent;
+  let fixture: ComponentFixture<DataSeriesFileListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DataSeriesFileListUserComponent ]
+      declarations: [ DataSeriesFileListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DataSeriesFileListUserComponent);
+    fixture = TestBed.createComponent(DataSeriesFileListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

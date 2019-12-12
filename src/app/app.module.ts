@@ -11,12 +11,13 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from '../app/auth/auth-interceptor';
-import { DataSeriesFileListUserComponent } from './data-series-file-list-user/data-series-file-list-user.component';
+import { DataSeriesFileListComponent } from './data-series-file-list/data-series-file-list.component';
 import { SeriesPropertiesListUserComponent } from './series-properties-list/series-properties-list.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
 
 @NgModule({
   declarations: [
@@ -25,11 +26,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HeaderComponent,
     FooterComponent,
     LoginComponent,
-    DataSeriesFileListUserComponent,
+    DataSeriesFileListComponent,
     SeriesPropertiesListUserComponent,
     AddUserComponent,
     UserListComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    LoadingIndicatorComponent
   ],
   imports: [
     BrowserModule,

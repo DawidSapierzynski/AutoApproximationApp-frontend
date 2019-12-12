@@ -24,6 +24,7 @@ export class TokenStorageService {
     if (this.getToken() !== null && this.getToken() !== undefined) {
       this.isLoggedBS.next(true);
       this.parseAuthorities();
+      this.usernameBS.next(this.getUsername());
     }
   }
 
@@ -33,6 +34,7 @@ export class TokenStorageService {
     window.sessionStorage.removeItem(AUTHORITIES_KEY);
     this.isLoggedBS.next(false);
     this.rolesBS.next([]);
+    this.usernameBS.next('');
     this.router.navigate(['/login']);
   }
 

@@ -1,24 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { SeriesPropertiesDTO } from '../dto/SeriesPropertiesDTO';
-import { HttpSeriesPropertiesService } from '../service/series-properties/http-series-properties.service';
+import { DataSeriesFileDTO } from '../dto/DataSeriesFileDTO';
+import { HttpDataSeriesFileService } from '../service/data-series-file/http-data-series-file.service';
 import { TokenStorageService } from '../service/auth/token-storage.service';
+import { HttpSeriesPropertiesService } from '../service/series-properties/http-series-properties.service';
+import { Router } from '@angular/router';
+
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-series-properties-list',
-  templateUrl: './series-properties-list.component.html',
-  styleUrls: ['./series-properties-list.component.css']
+  selector: 'app-data-series-file-listr',
+  templateUrl: './data-series-file-list.component.html',
+  styleUrls: ['./data-series-file-list.component.css']
 })
-export class SeriesPropertiesListUserComponent implements OnInit {
+export class DataSeriesFileListComponent implements OnInit {
   private roles: string[];
-  private seriesPropertiesDTOList: SeriesPropertiesDTO[];
-  private selectedList: SeriesPropertiesDTO[];
+  private precision: number;
+  private dataSeriesFileDTOList: DataSeriesFileDTO[];
+  private selectedList: DataSeriesFileDTO[];
   private isDisabledButton: boolean;
 
   constructor(
-    private seriesPropertiesService: HttpSeriesPropertiesService,
+    private dataSeriesFileService: HttpDataSeriesFileService,
     private tokenStorage: TokenStorageService,
     private modalService: NgbModal,
+    private httpSeriesPropertiesService: HttpSeriesPropertiesService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -26,11 +32,25 @@ export class SeriesPropertiesListUserComponent implements OnInit {
       this.roles = r;
     });
 
-    this.loadSeriesProperties();
+    this.loadDataSeriesFile();
   }
 
   private checkRoles(role: string) {
     return this.roles.includes(role);
+  }
+
+  private openCreate(create, id: number) {
+    this.modalService.open(create, { ariaLabelledBy: 'create-series-properties' }).result.then((result) => {
+      this.precision = result;
+      this.httpSeriesPropertiesService.postSeriesProperties(this.precision, id)
+        .subscribe(data => {
+          this.router.navigate(['/series-properties-detail', data.id]);
+        }, error => {
+          alert(`${error.status}: ${error.message}`);
+        });
+    }, (reason) => {
+      console.log(`Dismissed ${this.getDismissReason(reason)}`);
+    });
   }
 
   private openDelete(deleted) {
@@ -41,14 +61,14 @@ export class SeriesPropertiesListUserComponent implements OnInit {
     });
   }
 
-  private selected(seriesPropertiesDTO: SeriesPropertiesDTO) {
-    if (this.selectedList.includes(seriesPropertiesDTO)) {
-      const index = this.selectedList.indexOf(seriesPropertiesDTO, 0);
+  private selected(dataSeriesFileDTO: DataSeriesFileDTO) {
+    if (this.selectedList.includes(dataSeriesFileDTO)) {
+      const index = this.selectedList.indexOf(dataSeriesFileDTO, 0);
       if (index > -1) {
         this.selectedList.splice(index, 1);
       }
     } else {
-      this.selectedList.push(seriesPropertiesDTO);
+      this.selectedList.push(dataSeriesFileDTO);
     }
     if (this.selectedList.length === 0) {
       this.isDisabledButton = true;
@@ -60,7 +80,7 @@ export class SeriesPropertiesListUserComponent implements OnInit {
   private deletedSelected() {
     this.isDisabledButton = true;
     for (const i of this.selectedList) {
-      this.seriesPropertiesService.deleteSeriesProperties(i.id).subscribe(
+      this.dataSeriesFileService.deleteDataSeriesFilesAdmin(i.id).subscribe(
         data => {
         }, error => {
           alert(`${error.status}: ${error.message}`);
@@ -70,19 +90,19 @@ export class SeriesPropertiesListUserComponent implements OnInit {
     window.location.reload();
   }
 
-  private loadSeriesProperties() {
+  private loadDataSeriesFile() {
     if (this.checkRoles('ADMIN')) {
-      this.seriesPropertiesService.getSeriesPropertiesAdmin().subscribe(
+      this.dataSeriesFileService.getDataSeriesFilesAdmin().subscribe(
         data => {
-          this.seriesPropertiesDTOList = data;
+          this.dataSeriesFileDTOList = data;
         }, error => {
           alert(`${error.status}: ${error.message}`);
         }
       );
     } else if (this.checkRoles('USER')) {
-      this.seriesPropertiesService.getSeriesPropertiesUser().subscribe(
+      this.dataSeriesFileService.getDataSeriesFilesUser().subscribe(
         data => {
-          this.seriesPropertiesDTOList = data;
+          this.dataSeriesFileDTOList = data;
         }, error => {
           alert(`${error.status}: ${error.message}`);
         }

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpUserService } from '../service/user/http-user.service';
 import { UserDTO } from '../dto/UserDTO';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { TokenStorageService } from '../service/auth/token-storage.service';
+
 
 @Component({
   selector: 'app-user-list',
@@ -9,10 +12,49 @@ import { UserDTO } from '../dto/UserDTO';
 })
 export class UserListComponent implements OnInit {
   public userDTOList: UserDTO[];
+  private selectedList: UserDTO[];
+  private isDisabledButton: boolean;
+  private username: string;
 
-  constructor(private userService: HttpUserService) { }
+  constructor(
+    private userService: HttpUserService,
+    private modalService: NgbModal,
+    private tokenStorageService: TokenStorageService
+  ) {
+  }
 
   ngOnInit() {
+    this.tokenStorageService.usernameObservable.subscribe((u) => {
+      this.username = u;
+    });
+    this.loadUsers();
+  }
+
+  private openDelete(deleted) {
+    this.modalService.open(deleted, { ariaLabelledBy: 'Delete-user' }).result.then(() => {
+      this.deletedSelected();
+    }, (reason) => {
+      console.log(`Dismissed ${this.getDismissReason(reason)}`);
+    });
+  }
+
+  private selected(userDTO: UserDTO) {
+    if (this.selectedList.includes(userDTO)) {
+      const index = this.selectedList.indexOf(userDTO, 0);
+      if (index > -1) {
+        this.selectedList.splice(index, 1);
+      }
+    } else {
+      this.selectedList.push(userDTO);
+    }
+    if (this.selectedList.length === 0) {
+      this.isDisabledButton = true;
+    } else {
+      this.isDisabledButton = false;
+    }
+  }
+
+  private loadUsers() {
     this.userService.getAllUser().subscribe(
       data => {
         this.userDTOList = data;
@@ -20,6 +62,31 @@ export class UserListComponent implements OnInit {
         alert(`${error.status}: ${error.message}`);
       }
     );
+    this.isDisabledButton = true;
+    this.selectedList = [];
+  }
+
+  private deletedSelected() {
+    this.isDisabledButton = true;
+    for (const i of this.selectedList) {
+      this.userService.deleteUser(i.id).subscribe(
+        data => {
+        }, error => {
+          alert(`${error.status}: ${error.message}`);
+        }
+      );
+    }
+    window.location.reload();
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
 }

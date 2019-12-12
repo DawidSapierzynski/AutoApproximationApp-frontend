@@ -6,6 +6,7 @@ import { PointXY } from '../../dto/PointXY';
 import { ChosenMethodDTO } from '../../dto/ChosenMethodDTO';
 import { ApproximationDTO } from '../../dto/ApproximationDTO';
 import { ApproximationForm } from '../../dto/ApproximationForm';
+import {ResponseMessage} from '../../dto/ResponseMessage';
 
 
 @Injectable({
@@ -64,5 +65,11 @@ export class HttpSeriesPropertiesService {
     const endpoint = '/api/seriesProperties/' + id;
 
     return this.httpClient.get<SeriesPropertiesDTO>(endpoint);
+  }
+
+  public deleteSeriesProperties(seriesPropertiesId: number) {
+    const endpoint = '/api/seriesProperties/' + seriesPropertiesId;
+
+    return this.httpClient.delete<ResponseMessage>(endpoint);
   }
 }

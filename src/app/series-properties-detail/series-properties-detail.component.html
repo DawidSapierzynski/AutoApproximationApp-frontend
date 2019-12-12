@@ -1,12 +1,12 @@
 <div style="text-align:center">
   <br>
   <h3>Chart with marked points:</h3>
-  <canvas id="scatterChart"></canvas>
+  <canvas [hidden] = "!seriesProperties" id="scatterChart"></canvas>
   <br>
   <br>
 </div>
 
-<div class="col-md-6" *ngIf="!chosenMethods">
+<div class="col-md-6" *ngIf="!chosenMethods && seriesProperties">
   <h3>Properties of your data series:</h3>
   <table class="table table-striped">
     <thead>

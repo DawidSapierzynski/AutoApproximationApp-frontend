@@ -1,8 +1,20 @@
+<ng-template #deleted let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title text-center" id="modal-basic-title">Do you want to delete the selected series properties?</h4>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="modal.close(precision)">Delete</button>
+    </div>
+</ng-template>
+
 <div class="col-md-9">
     <h3>List:</h3>
     <table class="table table-striped">
         <thead>
             <tr>
+                <th></th>
                 <th>ID</th>
                 <th>Size</th>
                 <th>Fast variation</th>
@@ -15,6 +27,10 @@
         </thead>
         <tbody>
             <tr *ngFor="let seriesPropertiesDTO of seriesPropertiesDTOList">
+                <th>
+                    <input *ngIf="!seriesPropertiesDTO.deleted" type="checkbox" name={{seriesPropertiesDTO.id}}
+                        (click)="selected(seriesPropertiesDTO)" value=seriesPropertiesDTO.deleted>
+                </th>
                 <td>{{seriesPropertiesDTO.id}}</td>
                 <td>{{seriesPropertiesDTO.size}}</td>
                 <td>{{seriesPropertiesDTO.fastVariation}}</td>
@@ -23,12 +39,16 @@
                 <td>{{seriesPropertiesDTO.precision}}</td>
                 <td *ngIf="checkRoles('ADMIN')">{{seriesPropertiesDTO.deleted}}</td>
                 <td>
-                    <button [routerLink]="['/series-properties-detail', seriesPropertiesDTO.id]" class="btn btn-info">Detail</button>
-                    <button *ngIf="checkRoles('ADMIN')" class="btn btn-danger" disabled=!{{seriesPropertiesDTO.deleted}}>Deleted</button>
+                    <button [disabled]="seriesPropertiesDTO.deleted"
+                        [routerLink]="['/series-properties-detail', seriesPropertiesDTO.id]"
+                        class="btn btn-info">Detail</button>
                 </td>
             </tr>
         </tbody>
     </table>
+    <button class="btn btn-danger" [disabled]="isDisabledButton" (click)="openDelete(deleted)">Delete selected</button>
+    <br>
+    <br>
     <br>
     <br>
 </div>

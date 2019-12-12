@@ -1,8 +1,22 @@
+<ng-template #deleted let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title text-center" id="modal-basic-title">Do you want to delete the selected user?
+        </h4>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="modal.close(precision)">Delete</button>
+    </div>
+</ng-template>
+
+
 <div class="col-md-6">
     <h3>List:</h3>
     <table class="table table-striped">
         <thead>
             <tr>
+                <th></th>
                 <th>ID</th>
                 <th>Login</th>
                 <th>First name</th>
@@ -10,11 +24,14 @@
                 <th>Email</th>
                 <th>Active</th>
                 <th>Deleted</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let userDTO of userDTOList">
+                <th>
+                    <input *ngIf="!userDTO.deleted && userDTO.login != username" type="checkbox" name={{userDTO.id}} (click)="selected(userDTO)"
+                        value=userDTO.deleted>
+                </th>
                 <td>{{userDTO.id}}</td>
                 <td>{{userDTO.login}}</td>
                 <td>{{userDTO.firstName}}</td>
@@ -22,10 +39,10 @@
                 <td>{{userDTO.email}}</td>
                 <td>{{userDTO.active}}</td>
                 <td>{{userDTO.deleted}}</td>
-                <td><button class="btn btn-danger">Delete</button></td>
             </tr>
         </tbody>
     </table>
+    <button [disabled]="isDisabledButton" class="btn btn-danger" (click)="openDelete(deleted)">Delete selected</button>
     <br>
     <br>
 </div>
