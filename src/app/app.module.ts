@@ -18,6 +18,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator
     AddUserComponent,
     UserListComponent,
     UploadFileComponent,
-    LoadingIndicatorComponent
+    LoadingIndicatorComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,

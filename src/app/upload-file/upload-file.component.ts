@@ -8,8 +8,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./upload-file.component.css']
 })
 export class UploadFileComponent implements OnInit {
-  precision: number;
-  seriesDatesFile: File;
+  private precision: number;
+  private seriesDatesFile: File;
+  private isDisableButton: boolean;
 
   constructor(
     private httpSeriesPropertiesService: HttpSeriesPropertiesService,
@@ -17,15 +18,18 @@ export class UploadFileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.precision = 3;
+    this.isDisableButton = false;
   }
 
-  handleImages(event) {
+  private handleFile(event) {
     if (event.target.files && event.target.files.length > 0) {
       this.seriesDatesFile = event.target.files[0];
     }
   }
 
-  createSeriesProperties(): void {
+  private createSeriesProperties(): void {
+    this.isDisableButton = true;
     this.httpSeriesPropertiesService.uploadDataSeriesFile(this.seriesDatesFile).subscribe(
       dateSeriesFile => {
         this.httpSeriesPropertiesService.postSeriesProperties(this.precision, dateSeriesFile.id)
@@ -33,9 +37,11 @@ export class UploadFileComponent implements OnInit {
             this.router.navigate(['/series-properties-detail', data.id]);
           }, error => {
             alert(`${error.status}: ${error.message}`);
+            this.isDisableButton = false;
           });
       }, error => {
         alert(`${error.status}: ${error.message}`);
+        this.isDisableButton = false;
       }
     );
 

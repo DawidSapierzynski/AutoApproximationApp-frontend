@@ -8,6 +8,7 @@ import { SeriesPropertiesListUserComponent } from './series-properties-list/seri
 import { AddUserComponent } from '../app/add-user/add-user.component';
 import { UserListComponent } from '../app/user-list/user-list.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'series-properties-list', component: SeriesPropertiesListUserComponent, canActivate: [AuthGuard] },
   { path: 'add-user', component: AddUserComponent, canActivate: [AuthGuardAdmin] },
   { path: 'user-list', component: UserListComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'user-detail/:id', component: UserDetailComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent }
 ];
 

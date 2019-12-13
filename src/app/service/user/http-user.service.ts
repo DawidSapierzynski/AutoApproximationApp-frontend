@@ -28,4 +28,16 @@ export class HttpUserService {
 
     return this.httpClient.delete<ResponseMessage>(endpoint);
   }
+
+  public getUser(id: number) {
+    const endpoint = '/api/user/' + id;
+
+    return this.httpClient.get<UserDTO>(endpoint);
+  }
+
+  public updateUser(userDTO: UserDTO) {
+    const endpoint = '/api/user/' + userDTO.id;
+
+    return this.httpClient.put<UserDTO>(endpoint, userDTO);
+  }
 }

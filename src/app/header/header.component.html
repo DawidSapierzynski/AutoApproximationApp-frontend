@@ -2,30 +2,40 @@
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div><a href="/" class="navbar-brand">Auto Approximation App</a></div>
 
-    <ul class="navbar-nav">
-      <li *ngIf="roles.includes('USER')">
-        <a [routerLink]="['/upload-file']" class="nav-link" routerLinkActive="router-link-active">Upload file</a>
-      </li>
-      <li *ngIf="roles.includes('USER') || roles.includes('ADMIN')">
-        <a [routerLink]="['/data-series-file-list']" class="nav-link" routerLinkActive="router-link-active">File
-          list</a>
-      </li>
-      <li *ngIf="roles.includes('USER') || roles.includes('ADMIN')">
-        <a [routerLink]="['/series-properties-list']" class="nav-link" routerLinkActive="router-link-active">Series
-          properties list</a>
-      </li>
-      <li *ngIf="roles.includes('ADMIN')">
-        <a [routerLink]="['/user-list']" class="nav-link" routerLinkActive="router-link-active">User list</a>
-      </li>
-      <li *ngIf="roles.includes('ADMIN')">
-        <a [routerLink]="['/add-user']" class="nav-link" routerLinkActive="router-link-active">Add user</a>
-      </li>
-      <li *ngIf="!isLogged">
-        <a [routerLink]="['/login']" class="nav-link">Login</a>
-      </li>
-    </ul>
-    <div class="float-right" *ngIf="isLogged">
-      <button class="btn btn-secondary" (click)="logout()">Logout</button>
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="navbar-nav">
+        <li *ngIf="roles.includes('USER')">
+          <a [routerLink]="['/upload-file']" class="nav-link" routerLinkActive="router-link-active">Upload file</a>
+        </li>
+        <li *ngIf="roles.includes('USER') || roles.includes('ADMIN')">
+          <a [routerLink]="['/data-series-file-list']" class="nav-link" routerLinkActive="router-link-active">File
+            list</a>
+        </li>
+        <li *ngIf="roles.includes('USER') || roles.includes('ADMIN')">
+          <a [routerLink]="['/series-properties-list']" class="nav-link" routerLinkActive="router-link-active">Series
+            properties list</a>
+        </li>
+        <li *ngIf="roles.includes('ADMIN')">
+          <a [routerLink]="['/user-list']" class="nav-link" routerLinkActive="router-link-active">User list</a>
+        </li>
+        <li *ngIf="roles.includes('ADMIN')">
+          <a [routerLink]="['/add-user']" class="nav-link" routerLinkActive="router-link-active">Add user</a>
+        </li>
+        <li *ngIf="!isLogged">
+          <a [routerLink]="['/login']" class="nav-link">Login</a>
+        </li>
+      </ul>
+
+      <div class="col text-right" *ngIf="isLogged">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-secondary" id="dropdownBasic2" ngbDropdownToggle>{{username}}</button>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownBasic2">
+            <button [routerLink]="['/user-detail', userId]" ngbDropdownItem> My profile</button>
+            <button (click)="logout()" ngbDropdownItem>Logout</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </nav>
 </header>

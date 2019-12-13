@@ -11,15 +11,19 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  returnUrl;
-  form: any = {};
-  isLoggedIn = false;
-  isLoginFailed = false;
-  errorMessage = '';
+  private returnUrl;
+  private form: any = {};
+  private isLoggedIn = false;
+  private isLoginFailed = false;
+  private errorMessage = '';
   private loginInfo: AuthLoginInfo;
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService,
-    private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private authService: AuthService,
+    private tokenStorage: TokenStorageService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
     this.route.queryParams
@@ -33,7 +37,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  private onSubmit() {
     this.loginInfo = new AuthLoginInfo(
       this.form.username,
       this.form.password);
@@ -42,6 +46,7 @@ export class LoginComponent implements OnInit {
       data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUsername(data.username);
+        this.tokenStorage.saveUserId(data.userId);
         this.tokenStorage.saveAuthorities(data.authorities);
 
         this.isLoginFailed = false;
@@ -58,7 +63,7 @@ export class LoginComponent implements OnInit {
 
   }
 
-  redirectPage(path: string) {
+  private redirectPage(path: string) {
     this.router.navigate([path]);
   }
 }

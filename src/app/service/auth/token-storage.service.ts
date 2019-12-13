@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 const TOKEN_KEY = 'AuthToken';
 const USERNAME_KEY = 'AuthUsername';
 const AUTHORITIES_KEY = 'AuthAuthorities';
+const USERID_KEY = 'AuthUserId';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,12 @@ export class TokenStorageService {
   private rolesBS = new BehaviorSubject<Array<string>>([]);
   private isLoggedBS = new BehaviorSubject<boolean>(false);
   private usernameBS = new BehaviorSubject<string>('');
+  private userIdBS = new BehaviorSubject<string>('');
 
   rolesObservable = this.rolesBS.asObservable();
   isLoggedObservable = this.isLoggedBS.asObservable();
   usernameObservable = this.usernameBS.asObservable();
+  userIdObservable = this.userIdBS.asObservable();
 
   private roles: Array<string> = [];
 
@@ -25,6 +28,7 @@ export class TokenStorageService {
       this.isLoggedBS.next(true);
       this.parseAuthorities();
       this.usernameBS.next(this.getUsername());
+      this.userIdBS.next(this.getUserId());
     }
   }
 
@@ -32,9 +36,11 @@ export class TokenStorageService {
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.removeItem(USERNAME_KEY);
     window.sessionStorage.removeItem(AUTHORITIES_KEY);
+    window.sessionStorage.removeItem(USERID_KEY);
     this.isLoggedBS.next(false);
     this.rolesBS.next([]);
     this.usernameBS.next('');
+    this.userIdBS.next('');
     this.router.navigate(['/login']);
   }
 
@@ -56,6 +62,16 @@ export class TokenStorageService {
 
   public getUsername(): string {
     return sessionStorage.getItem(USERNAME_KEY);
+  }
+
+  public saveUserId(userId: string) {
+    window.sessionStorage.removeItem(USERID_KEY);
+    window.sessionStorage.setItem(USERID_KEY, userId);
+    this.userIdBS.next(userId);
+  }
+
+  public getUserId(): string {
+    return sessionStorage.getItem(USERID_KEY);
   }
 
   public saveAuthorities(authorities: string[]) {

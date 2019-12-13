@@ -13,6 +13,7 @@ import { AuthService } from '../service/auth/auth.service';
 export class AddUserComponent implements OnInit {
   private roleUserDTOList: RoleUserDTO[];
   private signUpInfo: SignUpForm;
+  private isDisableButton: boolean;
 
   constructor(
     private addUserService: HttpUserService,
@@ -20,6 +21,7 @@ export class AddUserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.isDisableButton =  false;
     this.addUserService.getUserRole().subscribe(
       data => {
         this.roleUserDTOList = data;
@@ -42,6 +44,7 @@ export class AddUserComponent implements OnInit {
   }
 
   addUser() {
+    this.isDisableButton =  true;
     this.authService.addUser(this.signUpInfo).subscribe(
       data => {
         alert(`${data.message}`);
