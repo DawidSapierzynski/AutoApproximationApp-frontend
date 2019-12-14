@@ -60,12 +60,7 @@ export class SeriesPropertiesListUserComponent implements OnInit {
   private deletedSelected() {
     this.isDisabledButton = true;
     for (const i of this.selectedList) {
-      this.seriesPropertiesService.deleteSeriesProperties(i.id).subscribe(
-        data => {
-        }, error => {
-          alert(`${error.status}: ${error.message}`);
-        }
-      );
+      this.seriesPropertiesService.deleteSeriesProperties(i.id);
     }
     window.location.reload();
   }
@@ -75,16 +70,12 @@ export class SeriesPropertiesListUserComponent implements OnInit {
       this.seriesPropertiesService.getSeriesPropertiesAdmin().subscribe(
         data => {
           this.seriesPropertiesDTOList = data;
-        }, error => {
-          alert(`${error.status}: ${error.message}`);
         }
       );
     } else if (this.checkRoles('USER')) {
       this.seriesPropertiesService.getSeriesPropertiesUser().subscribe(
         data => {
           this.seriesPropertiesDTOList = data;
-        }, error => {
-          alert(`${error.status}: ${error.message}`);
         }
       );
     }

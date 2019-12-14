@@ -45,8 +45,6 @@ export class DataSeriesFileListComponent implements OnInit {
       this.httpSeriesPropertiesService.postSeriesProperties(this.precision, id)
         .subscribe(data => {
           this.router.navigate(['/series-properties-detail', data.id]);
-        }, error => {
-          alert(`${error.status}: ${error.message}`);
         });
     }, (reason) => {
       console.log(`Dismissed ${this.getDismissReason(reason)}`);
@@ -82,10 +80,7 @@ export class DataSeriesFileListComponent implements OnInit {
     for (const i of this.selectedList) {
       this.dataSeriesFileService.deleteDataSeriesFilesAdmin(i.id).subscribe(
         data => {
-        }, error => {
-          alert(`${error.status}: ${error.message}`);
-        }
-      );
+        });
     }
     window.location.reload();
   }
@@ -95,18 +90,12 @@ export class DataSeriesFileListComponent implements OnInit {
       this.dataSeriesFileService.getDataSeriesFilesAdmin().subscribe(
         data => {
           this.dataSeriesFileDTOList = data;
-        }, error => {
-          alert(`${error.status}: ${error.message}`);
-        }
-      );
+        });
     } else if (this.checkRoles('USER')) {
       this.dataSeriesFileService.getDataSeriesFilesUser().subscribe(
         data => {
           this.dataSeriesFileDTOList = data;
-        }, error => {
-          alert(`${error.status}: ${error.message}`);
-        }
-      );
+        });
     }
     this.selectedList = [];
     this.isDisabledButton = true;
@@ -118,7 +107,7 @@ export class DataSeriesFileListComponent implements OnInit {
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
 

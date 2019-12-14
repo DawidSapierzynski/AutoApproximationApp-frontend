@@ -3,6 +3,8 @@ import { HttpUserService } from '../service/user/http-user.service';
 import { RoleUserDTO } from '../dto/RoleUserDTO';
 import { SignUpForm } from '../dto/SignUpForm';
 import { AuthService } from '../service/auth/auth.service';
+import { MessageService } from '../service/message/message.service';
+import { Message, MessageType } from '../message/Message';
 
 
 @Component({
@@ -17,18 +19,16 @@ export class AddUserComponent implements OnInit {
 
   constructor(
     private addUserService: HttpUserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
-    this.isDisableButton =  false;
+    this.isDisableButton = false;
     this.addUserService.getUserRole().subscribe(
       data => {
         this.roleUserDTOList = data;
-      }, error => {
-        alert(`${error.status}: ${error.message}`);
-      }
-    );
+      });
     this.signUpInfo = new SignUpForm();
   }
 
@@ -44,14 +44,14 @@ export class AddUserComponent implements OnInit {
   }
 
   addUser() {
-    this.isDisableButton =  true;
+    this.isDisableButton = true;
     this.authService.addUser(this.signUpInfo).subscribe(
       data => {
-        alert(`${data.message}`);
-      }, error => {
-        alert(`${error.status}: ${error.message}`);
-      }
-    );
+        this.messageService.sendMessage(new Message(`${data.message}`, MessageType.SUCCESS));
+        this.signUpInfo = new SignUpForm();
+        this.isDisableButton = false;
+      });
+    this.isDisableButton = false;
   }
 
 }

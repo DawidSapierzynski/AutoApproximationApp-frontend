@@ -4,6 +4,8 @@ import { AuthService } from '../service/auth/auth.service';
 import { TokenStorageService } from '../service/auth/token-storage.service';
 import { AuthLoginInfo } from '../dto/AuthLoginInfo';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MessageService } from '../service/message/message.service';
+import { Message, MessageType } from '../message/Message';
 
 @Component({
   selector: 'app-login',
@@ -11,26 +13,20 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private returnUrl;
   private form: any = {};
   private isLoggedIn = false;
   private isLoginFailed = false;
-  private errorMessage = '';
   private loginInfo: AuthLoginInfo;
 
   constructor(
     private authService: AuthService,
     private tokenStorage: TokenStorageService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
-    this.route.queryParams
-      .subscribe(params => {
-        this.returnUrl = params.returnUrl;
-      });
-
     const token = this.tokenStorage.getToken();
     if (token) {
       this.tokenStorage.signOut();
@@ -53,13 +49,7 @@ export class LoginComponent implements OnInit {
         this.isLoggedIn = true;
 
         this.redirectPage('/');
-      },
-      error => {
-        console.log(error);
-        this.errorMessage = error.error.message;
-        this.isLoginFailed = true;
-      }
-    );
+      });
 
   }
 

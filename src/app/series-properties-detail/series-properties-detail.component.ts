@@ -45,10 +45,7 @@ export class SeriesPropertiesDetailComponent implements OnInit {
               borderWidth: 1.5
             }];
             this.scatterChart = this.getChart(this.datasets);
-          }, error => {
-            alert(`${error.status}: ${error.message}`);
-          }
-        );
+          });
       });
   }
 
@@ -56,8 +53,6 @@ export class SeriesPropertiesDetailComponent implements OnInit {
     this.httpSeriesPropertiesService.selectMethods(this.seriesProperties)
       .subscribe(data => {
         this.chosenMethods = data;
-      }, error => {
-        alert(error);
       });
   }
 
@@ -75,10 +70,7 @@ export class SeriesPropertiesDetailComponent implements OnInit {
           pointRadius: 0
         });
         this.scatterChart.update();
-      }, error => {
-        alert(error);
-      }
-    );
+      });
 
     chosenMethod.isUsed = true;
 

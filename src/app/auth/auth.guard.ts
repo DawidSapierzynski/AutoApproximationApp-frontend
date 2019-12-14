@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { TokenStorageService } from '../service/auth/token-storage.service';
+import { Message, MessageType } from '../message/Message';
+import { MessageService } from '../service/message/message.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuardUser implements CanActivate {
     constructor(
         private router: Router,
-        private tokenStorageService: TokenStorageService
+        private tokenStorageService: TokenStorageService,
+        private messageService: MessageService
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -16,8 +19,7 @@ export class AuthGuardUser implements CanActivate {
         if (token && roles.includes('USER')) {
             return true;
         }
-
-        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+        this.messageService.sendMessage(new Message(`Path access denied: ${state.url}`, MessageType.DANGER));
         return false;
     }
 }
@@ -26,7 +28,8 @@ export class AuthGuardUser implements CanActivate {
 export class AuthGuardAdmin implements CanActivate {
     constructor(
         private router: Router,
-        private tokenStorageService: TokenStorageService
+        private tokenStorageService: TokenStorageService,
+        private messageService: MessageService
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -35,8 +38,7 @@ export class AuthGuardAdmin implements CanActivate {
         if (token && roles.includes('ADMIN')) {
             return true;
         }
-
-        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+        this.messageService.sendMessage(new Message(`Path access denied: ${state.url}`, MessageType.DANGER));
         return false;
     }
 }
@@ -45,7 +47,8 @@ export class AuthGuardAdmin implements CanActivate {
 export class AuthGuard implements CanActivate {
     constructor(
         private router: Router,
-        private tokenStorageService: TokenStorageService
+        private tokenStorageService: TokenStorageService,
+        private messageService: MessageService
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -53,8 +56,7 @@ export class AuthGuard implements CanActivate {
         if (token) {
             return true;
         }
-
-        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+        this.messageService.sendMessage(new Message(`Path access denied: ${state.url}`, MessageType.DANGER));
         return false;
     }
 }

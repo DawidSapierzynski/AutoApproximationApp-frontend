@@ -19,6 +19,7 @@ import { UploadFileComponent } from './upload-file/upload-file.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
+import { MessageComponent } from './message/message.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
     UserListComponent,
     UploadFileComponent,
     LoadingIndicatorComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,

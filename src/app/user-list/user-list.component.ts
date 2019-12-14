@@ -58,8 +58,6 @@ export class UserListComponent implements OnInit {
     this.userService.getAllUser().subscribe(
       data => {
         this.userDTOList = data;
-      }, error => {
-        alert(`${error.status}: ${error.message}`);
       }
     );
     this.isDisabledButton = true;
@@ -71,8 +69,6 @@ export class UserListComponent implements OnInit {
     for (const i of this.selectedList) {
       this.userService.deleteUser(i.id).subscribe(
         data => {
-        }, error => {
-          alert(`${error.status}: ${error.message}`);
         }
       );
     }

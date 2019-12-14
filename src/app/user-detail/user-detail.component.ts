@@ -29,8 +29,6 @@ export class UserDetailComponent implements OnInit {
         this.httpUserService.getUser(queryparams.id).subscribe(
           data => {
             this.userDto = data;
-          }, error => {
-            alert(`${error.status}: ${error.message}`);
           }
         );
       });
@@ -38,8 +36,6 @@ export class UserDetailComponent implements OnInit {
     this.httpUserService.getUserRole().subscribe(
       data => {
         this.allRolesUser = data;
-      }, error => {
-        alert(`${error.status}: ${error.message}`);
       });
 
     this.tokenStorageService.rolesObservable.subscribe(
@@ -70,8 +66,6 @@ export class UserDetailComponent implements OnInit {
       data => {
         this.userDto = data;
         alert('Saved');
-      }, error => {
-        alert(`${error.status}: ${error.message}`);
       }
     );
     this.isDisableButton = false;

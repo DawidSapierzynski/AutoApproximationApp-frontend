@@ -19,12 +19,15 @@ export class UploadFileComponent implements OnInit {
 
   ngOnInit() {
     this.precision = 3;
-    this.isDisableButton = false;
+    this.isDisableButton = true;
   }
 
   private handleFile(event) {
     if (event.target.files && event.target.files.length > 0) {
       this.seriesDatesFile = event.target.files[0];
+      this.isDisableButton = false;
+    } else {
+      this.isDisableButton = true;
     }
   }
 
@@ -35,15 +38,10 @@ export class UploadFileComponent implements OnInit {
         this.httpSeriesPropertiesService.postSeriesProperties(this.precision, dateSeriesFile.id)
           .subscribe(data => {
             this.router.navigate(['/series-properties-detail', data.id]);
-          }, error => {
-            alert(`${error.status}: ${error.message}`);
-            this.isDisableButton = false;
           });
-      }, error => {
-        alert(`${error.status}: ${error.message}`);
-        this.isDisableButton = false;
       }
     );
+    this.isDisableButton = false;
 
   }
 
