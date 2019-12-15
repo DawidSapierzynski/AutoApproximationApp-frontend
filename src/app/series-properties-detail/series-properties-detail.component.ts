@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute,  Params } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { HttpSeriesPropertiesService } from '../service/series-properties/http-series-properties.service';
-import { ApproximationDTO } from '../dto/ApproximationDTO';
 import { ChosenMethodDTO } from '../dto/ChosenMethodDTO';
 import { SeriesPropertiesDTO } from '../dto/SeriesPropertiesDTO';
 import { Chart } from 'chart.js';
 import 'chartjs-plugin-zoom';
-
+import { ApproximationView } from '../dto/ApproximationView';
+import { DomainFunction } from '../dto/DomainFunction';
+import { HttpDownloadService } from '../service/http-download/http-download.service';
+import { MathematicalFunctionDTO } from '../dto/MathematicalFunction';
+import { saveAs as importedSaveAs } from 'file-saver';
 
 @Component({
   selector: 'app-series-properties',
@@ -18,7 +21,7 @@ export class SeriesPropertiesDetailComponent implements OnInit {
   seriesProperties: SeriesPropertiesDTO;
   scatterChart: Chart;
   chosenMethods: ChosenMethodDTO[];
-  approximationForm: ApproximationDTO;
+  approximationViews: ApproximationView[] = [];
 
   colors: string[] = ['yellow', 'green', 'blue', 'black'];
   nbColor = 0;
@@ -27,7 +30,8 @@ export class SeriesPropertiesDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private httpSeriesPropertiesService: HttpSeriesPropertiesService
+    private httpSeriesPropertiesService: HttpSeriesPropertiesService,
+    private downloadService: HttpDownloadService
   ) { }
 
   ngOnInit() {
@@ -59,10 +63,10 @@ export class SeriesPropertiesDetailComponent implements OnInit {
   doApproximations(chosenMethod: ChosenMethodDTO): void {
     this.httpSeriesPropertiesService.doApproximations(chosenMethod, this.seriesProperties.points).subscribe(
       data => {
-        this.approximationForm = data;
+        this.approximationViews.push(new ApproximationView(data.mathematicalFunctionDTOs, chosenMethod.method));
         this.datasets.push({
           label: chosenMethod.method + '(' + chosenMethod.degree + ')',
-          data: this.approximationForm.points,
+          data: data.points,
           borderColor: this.colors[this.nbColor],
           backgroundColor: this.colors[this.nbColor],
           showLine: true,
@@ -109,4 +113,30 @@ export class SeriesPropertiesDetailComponent implements OnInit {
       }
     });
   }
+
+  private coefficientsString(coefficients: number[]): string {
+    let text = '';
+
+    coefficients.forEach((value, index) => {
+      text = text + (`A${index}=${value}, `);
+    }
+    );
+
+    return text;
+  }
+
+  private domainString(domain: DomainFunction): string {
+    const text = (domain.leftClosedInterval ? '<' : '(') + domain.beginningInterval + '; '
+      + domain.endInterval + (domain.rightClosedInterval ? '>' : ')');
+
+    return text;
+  }
+
+  private download(mathematicalFunctionDTOs: MathematicalFunctionDTO[]) {
+    this.downloadService.downloadApproximation(mathematicalFunctionDTOs).subscribe(blobParts => {
+      importedSaveAs(blobParts, 'approximationFile.txt');
+    });
+
+  }
+
 }

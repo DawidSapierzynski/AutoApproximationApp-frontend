@@ -9,7 +9,7 @@
     </div>
 </ng-template>
 
-<div class="col-md-9">
+<div class="col-md-10">
     <h3>Series properties list:</h3>
     <table class="table table-striped">
         <thead>
@@ -21,6 +21,7 @@
                 <th>Variance</th>
                 <th>Standard deviation</th>
                 <th>Precision</th>
+                <th>Date create</th>
                 <th *ngIf="checkRoles('ADMIN')">Deleted</th>
                 <th></th>
             </tr>
@@ -37,6 +38,7 @@
                 <td>{{seriesPropertiesDTO.variance}}</td>
                 <td>{{seriesPropertiesDTO.standardDeviation}}</td>
                 <td>{{seriesPropertiesDTO.precision}}</td>
+                <td>{{seriesPropertiesDTO.dateCreate | date: 'dd-MM-yyyy, HH:mm:ss'}}</td>
                 <td *ngIf="checkRoles('ADMIN')">{{seriesPropertiesDTO.deleted}}</td>
                 <td>
                     <button [disabled]="seriesPropertiesDTO.deleted"

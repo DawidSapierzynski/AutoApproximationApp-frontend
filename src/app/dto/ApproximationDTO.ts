@@ -1,12 +1,12 @@
 import { PointXY } from './PointXY';
-import { MathematicalFunction } from './MathematicalFunction';
+import { MathematicalFunctionDTO } from './MathematicalFunction';
 
 export class ApproximationDTO {
-    public mathematicalFunction: MathematicalFunction[];
+    public mathematicalFunctionDTOs: MathematicalFunctionDTO[];
     public points: PointXY[];
 
-    constructor(mathematicalFunction: MathematicalFunction[], points: PointXY[]) {
-        this.mathematicalFunction = mathematicalFunction;
+    constructor(mathematicalFunctionDTOs: MathematicalFunctionDTO[], points: PointXY[]) {
+        this.mathematicalFunctionDTOs = mathematicalFunctionDTOs;
         this.points = points;
     }
 }

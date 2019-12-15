@@ -9,11 +9,14 @@ export class SeriesPropertiesDTO {
     public variance: number;
     public standardDeviation: number;
     public precision: number;
+    public dateCreate: Date;
     public points: Array<PointXY>;
     public deleted: boolean;
 
-    constructor(id: number, size: number, fastVariationPolynomial: number, fastVariationTrigonometric: number, fastVariation: boolean,
-        variance: number, standardDeviation: number, precision: number, points: Array<PointXY>, deleted: boolean) {
+    constructor(
+        id: number, size: number, fastVariationPolynomial: number, fastVariationTrigonometric: number, fastVariation: boolean,
+        variance: number, standardDeviation: number, precision: number, dateCreate: Date, points: Array<PointXY>, deleted: boolean
+    ) {
         this.id = id;
         this.size = size;
         this.fastVariationPolynomial = fastVariationPolynomial;
@@ -22,6 +25,7 @@ export class SeriesPropertiesDTO {
         this.variance = variance;
         this.standardDeviation = standardDeviation;
         this.precision = precision;
+        this.dateCreate = dateCreate;
         this.points = points;
         this.deleted = deleted;
     }

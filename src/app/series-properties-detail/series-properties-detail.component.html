@@ -1,7 +1,7 @@
 <div style="text-align:center">
   <br>
   <h3>Chart with marked points:</h3>
-  <canvas [hidden] = "!seriesProperties" id="scatterChart"></canvas>
+  <canvas [hidden]="!seriesProperties" id="scatterChart"></canvas>
   <br>
   <br>
 </div>
@@ -67,13 +67,41 @@
       <tr *ngFor="let chosenMethod of chosenMethods">
         <td>{{chosenMethod.method}}</td>
         <td>{{chosenMethod.degree}}</td>
-        <td><button class="btn btn-success" disabled={{chosenMethod.isUsed}}
-            (click)="doApproximations(chosenMethod)">Choose</button></td>
+        <td>
+          <button class="btn btn-success" disabled={{chosenMethod.isUsed}} (click)="doApproximations(chosenMethod)">
+            Choose
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
   <br>
   <br>
+</div>
+
+<div class="col-md-12" *ngIf="chosenMethods">
+  <div *ngFor="let approximationView of approximationViews; let i = index">
+    <h3>{{approximationView.method}}:</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Polynomial coefficients</th>
+          <th>Domain function</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mathematicalFunctionDTO of approximationView.mathematicalFunctionDTOs">
+          <td>{{coefficientsString(mathematicalFunctionDTO.polynomialDTO.coefficients)}}</td>
+          <td style="width: 12.5%">{{domainString(mathematicalFunctionDTO.domainFunction)}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-success" (click)="download(approximationView.mathematicalFunctionDTOs)">
+      Download
+    </button>
+    <br>
+    <br>
+  </div>
 </div>
 
 <br>

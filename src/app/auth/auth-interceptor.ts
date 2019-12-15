@@ -27,7 +27,7 @@ export class AuthInterceptor implements HttpInterceptor {
         return next.handle(authReq).pipe(
             catchError((error: HttpErrorResponse) => {
                 this.messageService.sendMessage(
-                    new Message(error.error.message ? error.error.message :
+                    new Message(error.error.message !== 'No message available' ? error.error.message :
                         `Error status: ${error.statusText}`, MessageType.DANGER));
                 return throwError(error);
             }));

@@ -1,11 +1,12 @@
 import { DomainFunction } from './DomainFunction';
+import { PolynomialDTO } from './PolynomialDTO';
 
-export class MathematicalFunction {
-    public polynomial;
+export class MathematicalFunctionDTO {
+    public polynomialDTO: PolynomialDTO;
     public domainFunction: DomainFunction;
 
-    constructor(polynomial, domainFunction: DomainFunction) {
-        this.polynomial = polynomial;
+    constructor(polynomialDTO: PolynomialDTO, domainFunction: DomainFunction) {
+        this.polynomialDTO = polynomialDTO;
         this.domainFunction = domainFunction;
     }
 }
