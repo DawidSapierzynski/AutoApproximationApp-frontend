@@ -11,7 +11,7 @@
 </ng-template>
 
 
-<div class="col-md-6">
+<div class="col-md-7">
     <h3>Users list:</h3>
     <table class="table table-striped">
         <thead>
@@ -24,6 +24,7 @@
                 <th>Email</th>
                 <th>Active</th>
                 <th>Deleted</th>
+                <th>Admin</th>
                 <th></th>
             </tr>
         </thead>
@@ -40,6 +41,7 @@
                 <td>{{userDTO.email}}</td>
                 <td>{{userDTO.active}}</td>
                 <td>{{userDTO.deleted}}</td>
+                <td>{{userDTO.admin}}</td>
                 <th>
                     <button [disabled]="userDTO.deleted"
                         [routerLink]="['/user-detail', userDTO.id]"

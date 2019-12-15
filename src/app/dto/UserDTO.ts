@@ -9,10 +9,11 @@ export class UserDTO {
     public deleted: boolean;
     public active: boolean;
     public rolesUserDto: RoleUserDTO[];
+    public admin: boolean;
 
     constructor(
         id: number, login: string, firstName: string, lastName: string, email: string,
-        deleted: boolean, active: boolean, role: RoleUserDTO[]
+        deleted: boolean, active: boolean, role: RoleUserDTO[], admin: boolean
     ) {
         this.id = id;
         this.login = login;
@@ -22,5 +23,6 @@ export class UserDTO {
         this.deleted = deleted;
         this.active = active;
         this.rolesUserDto = role;
+        this.admin = admin;
     }
 }

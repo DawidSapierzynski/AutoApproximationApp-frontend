@@ -45,6 +45,12 @@
             </div>
         </div>
 
+        <div class="form-group custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" name="active" id="active" value="active" [checked]="userDto.active" [(ngModel)]="userDto.active" [disabled]="!isAdmin">
+            <label for="active" class="custom-control-label">Active account</label>
+        </div>
+
+
         <div class="form-group">
             <label>Roles:</label>
             <table class="table table-striped">
