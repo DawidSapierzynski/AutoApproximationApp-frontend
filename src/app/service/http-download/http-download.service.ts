@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse, HttpRequest, } from '@angular/common/http';
 import { MathematicalFunctionDTO } from 'src/app/dto/MathematicalFunction';
+import { DOWNLOAD_URL } from '../url.constants';
 
 
 @Injectable({
@@ -13,8 +14,6 @@ export class HttpDownloadService {
   ) { }
 
   public downloadApproximation(mathematicalFunctionDTOs: MathematicalFunctionDTO[]) {
-    const endpoint = '/api/download/approximation';
-
-    return this.httpClient.put(endpoint, mathematicalFunctionDTOs, { responseType: 'blob' });
+    return this.httpClient.put(DOWNLOAD_URL.APPROXIMATION, mathematicalFunctionDTOs, { responseType: 'blob' });
   }
 }

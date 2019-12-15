@@ -18,15 +18,16 @@ import { saveAs as importedSaveAs } from 'file-saver';
 })
 export class SeriesPropertiesDetailComponent implements OnInit {
 
-  seriesProperties: SeriesPropertiesDTO;
-  scatterChart: Chart;
-  chosenMethods: ChosenMethodDTO[];
-  approximationViews: ApproximationView[] = [];
+  private seriesProperties: SeriesPropertiesDTO;
+  private scatterChart: Chart;
+  private chosenMethods: ChosenMethodDTO[];
+  private approximationViews: ApproximationView[] = [];
+  private fileName = 'approximationFile.txt';
 
-  colors: string[] = ['yellow', 'green', 'blue', 'black'];
-  nbColor = 0;
+  private colors: string[] = ['yellow', 'green', 'blue', 'black'];
+  private nbColor = 0;
 
-  datasets = [];
+  private datasets = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -53,14 +54,14 @@ export class SeriesPropertiesDetailComponent implements OnInit {
       });
   }
 
-  selectMethods(): void {
+  private selectMethods(): void {
     this.httpSeriesPropertiesService.selectMethods(this.seriesProperties)
       .subscribe(data => {
         this.chosenMethods = data;
       });
   }
 
-  doApproximations(chosenMethod: ChosenMethodDTO): void {
+  private doApproximations(chosenMethod: ChosenMethodDTO): void {
     this.httpSeriesPropertiesService.doApproximations(chosenMethod, this.seriesProperties.points).subscribe(
       data => {
         this.approximationViews.push(new ApproximationView(data.mathematicalFunctionDTOs, chosenMethod.method));
@@ -84,7 +85,7 @@ export class SeriesPropertiesDetailComponent implements OnInit {
     }
   }
 
-  getChart(data) {
+  private getChart(data) {
     return new Chart('scatterChart', {
       type: 'scatter',
       data: {
@@ -118,7 +119,7 @@ export class SeriesPropertiesDetailComponent implements OnInit {
     let text = '';
 
     coefficients.forEach((value, index) => {
-      text = text + (`A${index}=${value}, `);
+      text = text + (`a${index}=${value}, `);
     }
     );
 
@@ -134,7 +135,7 @@ export class SeriesPropertiesDetailComponent implements OnInit {
 
   private download(mathematicalFunctionDTOs: MathematicalFunctionDTO[]) {
     this.downloadService.downloadApproximation(mathematicalFunctionDTOs).subscribe(blobParts => {
-      importedSaveAs(blobParts, 'approximationFile.txt');
+      importedSaveAs(blobParts, this.fileName);
     });
 
   }

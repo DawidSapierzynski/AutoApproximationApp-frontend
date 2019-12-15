@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpSeriesPropertiesService } from '../service/series-properties/http-series-properties.service';
 import { Router } from '@angular/router';
+import { HttpDataSeriesFileService } from '../service/data-series-file/http-data-series-file.service';
 
 @Component({
   selector: 'app-upload-file',
@@ -14,6 +15,7 @@ export class UploadFileComponent implements OnInit {
 
   constructor(
     private httpSeriesPropertiesService: HttpSeriesPropertiesService,
+    private httpDataSeriesFileService: HttpDataSeriesFileService,
     private router: Router
   ) { }
 
@@ -33,7 +35,7 @@ export class UploadFileComponent implements OnInit {
 
   private createSeriesProperties(): void {
     this.isDisableButton = true;
-    this.httpSeriesPropertiesService.uploadDataSeriesFile(this.seriesDatesFile).subscribe(
+    this.httpDataSeriesFileService.uploadDataSeriesFile(this.seriesDatesFile).subscribe(
       dateSeriesFile => {
         this.httpSeriesPropertiesService.postSeriesProperties(this.precision, dateSeriesFile.id)
           .subscribe(data => {

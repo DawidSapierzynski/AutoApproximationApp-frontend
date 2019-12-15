@@ -6,6 +6,7 @@ import { JwtResponse } from '../../dto/JwtResponse';
 import { AuthLoginInfo } from '../../dto/AuthLoginInfo';
 import { SignUpForm } from '../../dto/SignUpForm';
 import { ResponseMessage } from '../../dto/ResponseMessage';
+import { AUTH_URL } from '../url.constants';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -20,14 +21,12 @@ export class AuthService {
   }
 
   attemptAuth(credentials: AuthLoginInfo): Observable<JwtResponse> {
-    const loginUrl = '/api/auth/signin';
+    const loginUrl = AUTH_URL.SIGNIN;
 
     return this.http.post<JwtResponse>(loginUrl, credentials, httpOptions);
   }
 
   public addUser(info: SignUpForm) {
-    const signupUrl = '/api/auth/signup';
-
-    return this.http.post<ResponseMessage>(signupUrl, info, httpOptions);
+    return this.http.post<ResponseMessage>(AUTH_URL.SIGNUP, info, httpOptions);
   }
 }

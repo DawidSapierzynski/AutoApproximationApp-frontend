@@ -6,6 +6,8 @@ import { HttpSeriesPropertiesService } from '../service/series-properties/http-s
 import { Router } from '@angular/router';
 
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { MessageService } from '../service/message/message.service';
+import { Message, MessageType } from '../message/Message';
 
 @Component({
   selector: 'app-data-series-file-listr',
@@ -24,7 +26,8 @@ export class DataSeriesFileListComponent implements OnInit {
     private tokenStorage: TokenStorageService,
     private modalService: NgbModal,
     private httpSeriesPropertiesService: HttpSeriesPropertiesService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -80,9 +83,10 @@ export class DataSeriesFileListComponent implements OnInit {
     for (const i of this.selectedList) {
       this.dataSeriesFileService.deleteDataSeriesFilesAdmin(i.id).subscribe(
         data => {
+          this.messageService.sendMessage(new Message(data.message, MessageType.SUCCESS));
+          this.loadDataSeriesFile();
         });
     }
-    window.location.reload();
   }
 
   private loadDataSeriesFile() {

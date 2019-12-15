@@ -3,6 +3,8 @@ import { HttpUserService } from '../service/user/http-user.service';
 import { UserDTO } from '../dto/UserDTO';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { TokenStorageService } from '../service/auth/token-storage.service';
+import { MessageService } from '../service/message/message.service';
+import { Message, MessageType } from '../message/Message';
 
 
 @Component({
@@ -19,7 +21,8 @@ export class UserListComponent implements OnInit {
   constructor(
     private userService: HttpUserService,
     private modalService: NgbModal,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
+    private messageService: MessageService
   ) {
   }
 
@@ -69,10 +72,11 @@ export class UserListComponent implements OnInit {
     for (const i of this.selectedList) {
       this.userService.deleteUser(i.id).subscribe(
         data => {
+          this.messageService.sendMessage(new Message(data.message, MessageType.SUCCESS));
+          this.loadUsers();
         }
       );
     }
-    window.location.reload();
   }
 
   private getDismissReason(reason: any): string {

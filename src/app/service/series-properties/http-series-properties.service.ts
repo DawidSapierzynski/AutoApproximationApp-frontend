@@ -7,6 +7,7 @@ import { ChosenMethodDTO } from '../../dto/ChosenMethodDTO';
 import { ApproximationDTO } from '../../dto/ApproximationDTO';
 import { ApproximationForm } from '../../dto/ApproximationForm';
 import {ResponseMessage} from '../../dto/ResponseMessage';
+import { SERIES_PROPERTIES_URL } from '../url.constants';
 
 
 @Injectable({
@@ -17,58 +18,41 @@ export class HttpSeriesPropertiesService {
     private httpClient: HttpClient
   ) { }
 
-  public uploadDataSeriesFile(dataSeriesFile: File) {
-    const endpoint = '/api/dataSeriesFile';
-
-    const uploadData = new FormData();
-    uploadData.append('dataSeriesFile', dataSeriesFile);
-
-    return this.httpClient.post<DataSeriesFileDTO>(endpoint, uploadData);
-  }
-
   public postSeriesProperties(precision: number, dataSeriesId: number) {
-    const endpoint = '/api/seriesProperties';
     const uploadData = new FormData();
 
     uploadData.append('dataSeriesFileId', JSON.stringify(dataSeriesId));
     uploadData.append('precision', JSON.stringify(precision));
 
-    return this.httpClient.post<SeriesPropertiesDTO>(endpoint, uploadData);
+    return this.httpClient.post<SeriesPropertiesDTO>(SERIES_PROPERTIES_URL.BASE, uploadData);
   }
 
   public selectMethods(seriesProperties: SeriesPropertiesDTO) {
-    const endpoint = '/api/chooseMethod';
-    return this.httpClient.post<ChosenMethodDTO[]>(endpoint, seriesProperties);
+    return this.httpClient.post<ChosenMethodDTO[]>(SERIES_PROPERTIES_URL.CHOOSE_METHOD, seriesProperties);
   }
 
   public doApproximations(chosenMethod: ChosenMethodDTO, points: PointXY[]) {
-    const endpoint = '/api/doApproximations';
-
     const approximationForm = new ApproximationForm(chosenMethod, points);
 
-    return this.httpClient.post<ApproximationDTO>(endpoint, approximationForm);
+    return this.httpClient.post<ApproximationDTO>(SERIES_PROPERTIES_URL.DO_APPROXIMATIONS, approximationForm);
   }
 
   public getSeriesPropertiesAdmin() {
-    const endpoint = '/api/seriesProperties/all';
-
-    return this.httpClient.get<SeriesPropertiesDTO[]>(endpoint);
+    return this.httpClient.get<SeriesPropertiesDTO[]>(SERIES_PROPERTIES_URL.GET_ADMIN);
   }
 
   public getSeriesPropertiesUser() {
-    const endpoint = '/api/seriesProperties';
-
-    return this.httpClient.get<SeriesPropertiesDTO[]>(endpoint);
+    return this.httpClient.get<SeriesPropertiesDTO[]>(SERIES_PROPERTIES_URL.BASE);
   }
 
   public getSeriesProperties(id: string) {
-    const endpoint = '/api/seriesProperties/' + id;
+    const endpoint = SERIES_PROPERTIES_URL.GET_ONE + id;
 
     return this.httpClient.get<SeriesPropertiesDTO>(endpoint);
   }
 
   public deleteSeriesProperties(seriesPropertiesId: number) {
-    const endpoint = '/api/seriesProperties/' + seriesPropertiesId;
+    const endpoint = SERIES_PROPERTIES_URL.DELETE + seriesPropertiesId;
 
     return this.httpClient.delete<ResponseMessage>(endpoint);
   }

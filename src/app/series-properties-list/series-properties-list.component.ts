@@ -3,6 +3,8 @@ import { SeriesPropertiesDTO } from '../dto/SeriesPropertiesDTO';
 import { HttpSeriesPropertiesService } from '../service/series-properties/http-series-properties.service';
 import { TokenStorageService } from '../service/auth/token-storage.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { MessageService } from '../service/message/message.service';
+import { Message, MessageType } from '../message/Message';
 
 @Component({
   selector: 'app-series-properties-list',
@@ -19,6 +21,7 @@ export class SeriesPropertiesListUserComponent implements OnInit {
     private seriesPropertiesService: HttpSeriesPropertiesService,
     private tokenStorage: TokenStorageService,
     private modalService: NgbModal,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -60,9 +63,11 @@ export class SeriesPropertiesListUserComponent implements OnInit {
   private deletedSelected() {
     this.isDisabledButton = true;
     for (const i of this.selectedList) {
-      this.seriesPropertiesService.deleteSeriesProperties(i.id);
+      this.seriesPropertiesService.deleteSeriesProperties(i.id).subscribe(data => {
+        this.messageService.sendMessage(new Message(data.message, MessageType.SUCCESS));
+        this.loadSeriesProperties();
+      });
     }
-    window.location.reload();
   }
 
   private loadSeriesProperties() {
@@ -89,7 +94,7 @@ export class SeriesPropertiesListUserComponent implements OnInit {
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
 
