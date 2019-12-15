@@ -1,10 +1,12 @@
 <div *ngIf="messages" style="position: fixed; top: 70px; right: 10px;">
     <div *ngFor="let item of messages; let i = index" [style.width.px] = "300">
         <div [ngClass]="item.type" (click) = "close(i)">
+            <small>{{item.dateCreate | date: 'HH:mm:ss, dd-MM-yyyy'}}</small>
             <button (click) = "close(i)" type="button" class="close" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
             <p>{{item.text}}</p>
+            
         </div>
     </div>
 </div>

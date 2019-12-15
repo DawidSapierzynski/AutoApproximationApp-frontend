@@ -7,7 +7,7 @@ import { Chart } from 'chart.js';
 import 'chartjs-plugin-zoom';
 import { ApproximationView } from '../dto/ApproximationView';
 import { DomainFunction } from '../dto/DomainFunction';
-import { HttpDownloadService } from '../service/http-download/http-download.service';
+import { HttpDownloadService } from '../service/download/http-download.service';
 import { MathematicalFunctionDTO } from '../dto/MathematicalFunction';
 import { saveAs as importedSaveAs } from 'file-saver';
 

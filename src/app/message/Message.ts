@@ -1,10 +1,12 @@
 export class Message {
     private text: string;
     private type: string;
+    private dateCreate: Date;
 
     constructor(text: string, type: MessageType) {
         this.text = text;
         this.type = type;
+        this.dateCreate = new Date();
     }
 }
 
