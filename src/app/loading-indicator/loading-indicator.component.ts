@@ -14,6 +14,10 @@ export class LoadingIndicatorComponent implements OnInit {
   constructor(
     private router: Router
   ) {
+
+  }
+
+  ngOnInit() {
     this.router.events.subscribe((routerEvent: Event) => {
       if (routerEvent instanceof NavigationStart) {
         this.showLoadingIndicator = true;
@@ -24,9 +28,6 @@ export class LoadingIndicatorComponent implements OnInit {
         this.showLoadingIndicator = false;
       }
     });
-  }
-
-  ngOnInit() {
   }
 
 }

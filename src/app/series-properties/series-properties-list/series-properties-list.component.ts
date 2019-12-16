@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { SeriesPropertiesDTO } from '../dto/SeriesPropertiesDTO';
-import { HttpSeriesPropertiesService } from '../service/series-properties/http-series-properties.service';
-import { TokenStorageService } from '../service/auth/token-storage.service';
+import { SeriesPropertiesDTO } from '../../dto/SeriesPropertiesDTO';
+import { HttpSeriesPropertiesService } from '../../service/series-properties/http-series-properties.service';
+import { TokenStorageService } from '../../service/auth/token-storage.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { MessageService } from '../service/message/message.service';
-import { Message, MessageType } from '../message/Message';
+import { MessageService } from '../../service/message/message.service';
+import { Message, MessageType } from '../../message/Message';
 
 @Component({
   selector: 'app-series-properties-list',

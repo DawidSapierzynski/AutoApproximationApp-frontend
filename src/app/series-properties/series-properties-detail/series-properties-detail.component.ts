@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { HttpSeriesPropertiesService } from '../service/series-properties/http-series-properties.service';
-import { ChosenMethodDTO } from '../dto/ChosenMethodDTO';
-import { SeriesPropertiesDTO } from '../dto/SeriesPropertiesDTO';
+import { HttpSeriesPropertiesService } from '../../service/series-properties/http-series-properties.service';
+import { ChosenMethodDTO } from '../../dto/ChosenMethodDTO';
+import { SeriesPropertiesDTO } from '../../dto/SeriesPropertiesDTO';
 import { Chart } from 'chart.js';
 import 'chartjs-plugin-zoom';
-import { ApproximationView } from '../dto/ApproximationView';
-import { DomainFunction } from '../dto/DomainFunction';
-import { HttpDownloadService } from '../service/download/http-download.service';
-import { MathematicalFunctionDTO } from '../dto/MathematicalFunction';
+import { ApproximationView } from '../../dto/ApproximationView';
+import { DomainFunction } from '../../dto/DomainFunction';
+import { HttpDownloadService } from '../../service/download/http-download.service';
+import { MathematicalFunctionDTO } from '../../dto/MathematicalFunction';
 import { saveAs as importedSaveAs } from 'file-saver';
 
 @Component({

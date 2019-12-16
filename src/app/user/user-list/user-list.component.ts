@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpUserService } from '../service/user/http-user.service';
-import { UserDTO } from '../dto/UserDTO';
+import { HttpUserService } from '../../service/user/http-user.service';
+import { UserDTO } from '../../dto/UserDTO';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { TokenStorageService } from '../service/auth/token-storage.service';
-import { MessageService } from '../service/message/message.service';
-import { Message, MessageType } from '../message/Message';
+import { TokenStorageService } from '../../service/auth/token-storage.service';
+import { MessageService } from '../../service/message/message.service';
+import { Message, MessageType } from '../../message/Message';
 
 
 @Component({

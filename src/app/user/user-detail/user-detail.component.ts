@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { HttpUserService } from '../service/user/http-user.service';
-import { UserDTO } from '../dto/UserDTO';
-import { RoleUserDTO } from '../dto/RoleUserDTO';
-import { TokenStorageService } from '../service/auth/token-storage.service';
-import { MessageType, Message } from '../message/Message';
-import { MessageService } from '../service/message/message.service';
+import { HttpUserService } from '../../service/user/http-user.service';
+import { UserDTO } from '../../dto/UserDTO';
+import { RoleUserDTO } from '../../dto/RoleUserDTO';
+import { TokenStorageService } from '../../service/auth/token-storage.service';
+import { MessageType, Message } from '../../message/Message';
+import { MessageService } from '../../service/message/message.service';
 
 @Component({
   selector: 'app-user-detail',

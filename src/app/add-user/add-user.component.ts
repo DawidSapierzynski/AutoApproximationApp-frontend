@@ -32,7 +32,7 @@ export class AddUserComponent implements OnInit {
     this.signUpInfo = new SignUpForm();
   }
 
-  selected(roleUserDTO: RoleUserDTO) {
+  private selected(roleUserDTO: RoleUserDTO) {
     if (this.signUpInfo.role.includes(roleUserDTO)) {
       const index = this.signUpInfo.role.indexOf(roleUserDTO, 0);
       if (index > -1) {
@@ -43,7 +43,7 @@ export class AddUserComponent implements OnInit {
     }
   }
 
-  addUser() {
+  private addUser() {
     this.isDisableButton = true;
     this.authService.addUser(this.signUpInfo).subscribe(
       data => {
