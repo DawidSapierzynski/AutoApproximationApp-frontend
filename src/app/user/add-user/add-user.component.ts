@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpUserService } from '../service/user/http-user.service';
-import { RoleUserDTO } from '../dto/RoleUserDTO';
-import { SignUpForm } from '../dto/SignUpForm';
-import { AuthService } from '../service/auth/auth.service';
-import { MessageService } from '../service/message/message.service';
-import { Message, MessageType } from '../message/Message';
+import { HttpUserService } from '../../service/user/http-user.service';
+import { RoleUserDTO } from '../../dto/RoleUserDTO';
+import { SignUpForm } from '../../dto/SignUpForm';
+import { AuthService } from '../../service/auth/auth.service';
+import { MessageService } from '../../service/message/message.service';
+import { Message, MessageType } from '../../message/Message';
 
 
 @Component({

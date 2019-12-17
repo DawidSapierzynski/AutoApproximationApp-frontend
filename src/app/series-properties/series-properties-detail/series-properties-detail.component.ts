@@ -24,7 +24,7 @@ export class SeriesPropertiesDetailComponent implements OnInit {
   private approximationViews: ApproximationView[] = [];
   private fileName = 'approximationFile.txt';
 
-  private colors: string[] = ['yellow', 'green', 'blue', 'black'];
+  private colors: string[] = ['yellow', 'green', 'black'];
   private nbColor = 0;
 
   private datasets = [];
@@ -49,6 +49,15 @@ export class SeriesPropertiesDetailComponent implements OnInit {
               backgroundColor: 'red',
               borderWidth: 1.5
             }];
+            if (data.artefacts.length > 0) {
+              this.datasets.push({
+                label: 'Artefacts',
+                data: data.artefacts,
+                borderColor: 'blue',
+                backgroundColor: 'blue',
+                borderWidth: 1.5
+              });
+            }
             this.scatterChart = this.getChart(this.datasets);
           });
       });

@@ -1,4 +1,5 @@
 import { PointXY } from './PointXY';
+import { ThrowStmt } from '@angular/compiler';
 
 export class SeriesPropertiesDTO {
     public id: number;
@@ -11,11 +12,13 @@ export class SeriesPropertiesDTO {
     public precision: number;
     public dateCreate: Date;
     public points: Array<PointXY>;
+    public artefacts: Array<PointXY>;
     public deleted: boolean;
 
     constructor(
         id: number, size: number, fastVariationPolynomial: number, fastVariationTrigonometric: number, fastVariation: boolean,
-        variance: number, standardDeviation: number, precision: number, dateCreate: Date, points: Array<PointXY>, deleted: boolean
+        variance: number, standardDeviation: number, precision: number, dateCreate: Date, points: Array<PointXY>, deleted: boolean,
+        artefacts: Array<PointXY>
     ) {
         this.id = id;
         this.size = size;
@@ -28,5 +31,6 @@ export class SeriesPropertiesDTO {
         this.dateCreate = dateCreate;
         this.points = points;
         this.deleted = deleted;
+        this.artefacts = artefacts;
     }
 }

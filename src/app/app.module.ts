@@ -13,7 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from '../app/auth/auth-interceptor';
 import { DataSeriesFileListComponent } from './data-series-file-list/data-series-file-list.component';
 import { SeriesPropertiesListUserComponent } from './series-properties/series-properties-list/series-properties-list.component';
-import { AddUserComponent } from './add-user/add-user.component';
+import { AddUserComponent } from './user/add-user/add-user.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
