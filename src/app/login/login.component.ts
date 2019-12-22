@@ -3,9 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../service/auth/auth.service';
 import { TokenStorageService } from '../service/auth/token-storage.service';
 import { AuthLoginInfo } from '../dto/AuthLoginInfo';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MessageService } from '../service/message/message.service';
-import { Message, MessageType } from '../message/Message';
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -21,9 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private tokenStorage: TokenStorageService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private messageService: MessageService
+    private router: Router
   ) { }
 
   ngOnInit() {

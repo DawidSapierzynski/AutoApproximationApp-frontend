@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { HttpSeriesPropertiesService } from '../../service/series-properties/http-series-properties.service';
-import { ChosenMethodDTO } from '../../dto/ChosenMethodDTO';
-import { SeriesPropertiesDTO } from '../../dto/SeriesPropertiesDTO';
-import { Chart } from 'chart.js';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Params} from '@angular/router';
+import {HttpSeriesPropertiesService} from '../../service/series-properties/http-series-properties.service';
+import {ChosenMethodDTO} from '../../dto/ChosenMethodDTO';
+import {SeriesPropertiesDTO} from '../../dto/SeriesPropertiesDTO';
+import {Chart} from 'chart.js';
 import 'chartjs-plugin-zoom';
-import { ApproximationView } from '../../dto/ApproximationView';
-import { DomainFunction } from '../../dto/DomainFunction';
-import { HttpDownloadService } from '../../service/download/http-download.service';
-import { MathematicalFunctionDTO } from '../../dto/MathematicalFunction';
-import { saveAs as importedSaveAs } from 'file-saver';
+import {ApproximationView} from '../../dto/ApproximationView';
+import {DomainFunction} from '../../dto/DomainFunction';
+import {HttpDownloadService} from '../../service/download/http-download.service';
+import {MathematicalFunctionDTO} from '../../dto/MathematicalFunction';
+import {saveAs as importedSaveAs} from 'file-saver';
+import {TokenStorageService} from '../../service/auth/token-storage.service';
 
 @Component({
   selector: 'app-series-properties',
@@ -18,6 +19,15 @@ import { saveAs as importedSaveAs } from 'file-saver';
 })
 export class SeriesPropertiesDetailComponent implements OnInit {
 
+  constructor(
+    private route: ActivatedRoute,
+    private httpSeriesPropertiesService: HttpSeriesPropertiesService,
+    private downloadService: HttpDownloadService,
+    private tokenStorage: TokenStorageService,
+  ) {
+  }
+
+  private roles: string[];
   private seriesProperties: SeriesPropertiesDTO;
   private scatterChart: Chart;
   private chosenMethods: ChosenMethodDTO[];
@@ -29,13 +39,40 @@ export class SeriesPropertiesDetailComponent implements OnInit {
 
   private datasets = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    private httpSeriesPropertiesService: HttpSeriesPropertiesService,
-    private downloadService: HttpDownloadService
-  ) { }
+  private static getChart(data) {
+    return new Chart('scatterChart', {
+      type: 'scatter',
+      data: {
+        datasets: data
+      },
+      options: {
+        scales: {
+          xAxes: [{
+            type: 'linear',
+            position: 'bottom'
+          }]
+        },
+        plugins: {
+          zoom: {
+            pan: {
+              enabled: true,
+              mode: 'xy'
+            },
+            zoom: {
+              enabled: true,
+              mode: 'xy'
+            }
+          }
+        },
+        responsive: true
+      }
+    });
+  }
 
   ngOnInit() {
+    this.tokenStorage.rolesObservable.subscribe(r => {
+      this.roles = r;
+    });
     this.route.params.subscribe(
       (queryparams: Params) => {
         this.httpSeriesPropertiesService.getSeriesProperties(queryparams.id).subscribe(
@@ -58,7 +95,7 @@ export class SeriesPropertiesDetailComponent implements OnInit {
                 borderWidth: 1.5
               });
             }
-            this.scatterChart = this.getChart(this.datasets);
+            this.scatterChart = SeriesPropertiesDetailComponent.getChart(this.datasets);
           });
       });
   }
@@ -94,52 +131,20 @@ export class SeriesPropertiesDetailComponent implements OnInit {
     }
   }
 
-  private getChart(data) {
-    return new Chart('scatterChart', {
-      type: 'scatter',
-      data: {
-        datasets: data
-      },
-      options: {
-        scales: {
-          xAxes: [{
-            type: 'linear',
-            position: 'bottom'
-          }]
-        },
-        plugins: {
-          zoom: {
-            pan: {
-              enabled: true,
-              mode: 'xy'
-            },
-            zoom: {
-              enabled: true,
-              mode: 'xy'
-            }
-          }
-        },
-        responsive: true
-      }
-    });
-  }
-
   private coefficientsString(coefficients: number[]): string {
     let text = '';
 
     coefficients.forEach((value, index) => {
-      text = text + (`a${index}=${value}, `);
-    }
+        text = text + (`a${index}=${value}, `);
+      }
     );
 
     return text;
   }
 
   private domainString(domain: DomainFunction): string {
-    const text = (domain.leftClosedInterval ? '<' : '(') + domain.beginningInterval + '; '
+    return (domain.leftClosedInterval ? '<' : '(') + domain.beginningInterval + '; '
       + domain.endInterval + (domain.rightClosedInterval ? '>' : ')');
-
-    return text;
   }
 
   private download(mathematicalFunctionDTOs: MathematicalFunctionDTO[]) {

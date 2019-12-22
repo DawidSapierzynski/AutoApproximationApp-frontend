@@ -68,7 +68,7 @@ export class UserDetailComponent implements OnInit {
     this.httpUserService.updateUser(this.userDto).subscribe(
       data => {
         this.userDto = data;
-        this.messageService.sendMessage(new Message('Saved', MessageType.SUCCESS));
+        this.messageService.sendMessage(new Message('User detail saved', MessageType.SUCCESS));
       }
     );
     this.isDisableButton = false;

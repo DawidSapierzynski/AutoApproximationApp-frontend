@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { TokenStorageService } from '../service/auth/token-storage.service';
-import { HttpUserService } from '../service/user/http-user.service';
+import {Component, OnInit} from '@angular/core';
+import {TokenStorageService} from '../service/auth/token-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -15,9 +14,9 @@ export class HeaderComponent implements OnInit {
   private userId: string;
 
   constructor(
-    private tokenStorage: TokenStorageService,
-    private httpUserService: HttpUserService
-  ) { }
+    private tokenStorage: TokenStorageService
+  ) {
+  }
 
   ngOnInit() {
     this.tokenStorage.rolesObservable.subscribe(r => {
@@ -38,7 +37,7 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  private  logout() {
+  private logout() {
     this.tokenStorage.signOut();
   }
 

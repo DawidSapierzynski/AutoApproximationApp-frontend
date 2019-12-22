@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpRequest, } from '@angular/common/http';
+import { HttpClient, } from '@angular/common/http';
 import { MathematicalFunctionDTO } from 'src/app/dto/MathematicalFunction';
 import { DOWNLOAD_URL } from '../url.constants';
 

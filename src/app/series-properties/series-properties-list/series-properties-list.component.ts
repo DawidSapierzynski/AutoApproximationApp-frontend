@@ -12,10 +12,6 @@ import { Message, MessageType } from '../../message/Message';
   styleUrls: ['./series-properties-list.component.css']
 })
 export class SeriesPropertiesListUserComponent implements OnInit {
-  private roles: string[];
-  private seriesPropertiesDTOList: SeriesPropertiesDTO[];
-  private selectedList: SeriesPropertiesDTO[];
-  private isDisabledButton: boolean;
 
   constructor(
     private seriesPropertiesService: HttpSeriesPropertiesService,
@@ -23,6 +19,20 @@ export class SeriesPropertiesListUserComponent implements OnInit {
     private modalService: NgbModal,
     private messageService: MessageService
   ) { }
+  private roles: string[];
+  private seriesPropertiesDTOList: SeriesPropertiesDTO[];
+  private selectedList: SeriesPropertiesDTO[];
+  private isDisabledButton: boolean;
+
+  private static getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 
   ngOnInit() {
     this.tokenStorage.rolesObservable.subscribe(r => {
@@ -40,7 +50,7 @@ export class SeriesPropertiesListUserComponent implements OnInit {
     this.modalService.open(deleted, { ariaLabelledBy: 'Delete-series-properties' }).result.then(() => {
       this.deletedSelected();
     }, (reason) => {
-      console.log(`Dismissed ${this.getDismissReason(reason)}`);
+      console.log(`Dismissed ${SeriesPropertiesListUserComponent.getDismissReason(reason)}`);
     });
   }
 
@@ -53,11 +63,7 @@ export class SeriesPropertiesListUserComponent implements OnInit {
     } else {
       this.selectedList.push(seriesPropertiesDTO);
     }
-    if (this.selectedList.length === 0) {
-      this.isDisabledButton = true;
-    } else {
-      this.isDisabledButton = false;
-    }
+    this.isDisabledButton = this.selectedList.length === 0;
   }
 
   private deletedSelected() {
@@ -86,16 +92,6 @@ export class SeriesPropertiesListUserComponent implements OnInit {
     }
     this.selectedList = [];
     this.isDisabledButton = true;
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
   }
 
 }

@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { DataSeriesFileDTO } from '../dto/DataSeriesFileDTO';
-import { HttpDataSeriesFileService } from '../service/data-series-file/http-data-series-file.service';
-import { TokenStorageService } from '../service/auth/token-storage.service';
-import { HttpSeriesPropertiesService } from '../service/series-properties/http-series-properties.service';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {DataSeriesFileDTO} from '../dto/DataSeriesFileDTO';
+import {HttpDataSeriesFileService} from '../service/data-series-file/http-data-series-file.service';
+import {TokenStorageService} from '../service/auth/token-storage.service';
+import {HttpSeriesPropertiesService} from '../service/series-properties/http-series-properties.service';
+import {Router} from '@angular/router';
 
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { MessageService } from '../service/message/message.service';
-import { Message, MessageType } from '../message/Message';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {MessageService} from '../service/message/message.service';
+import {Message, MessageType} from '../message/Message';
 
 @Component({
   selector: 'app-data-series-file-listr',
@@ -15,11 +15,6 @@ import { Message, MessageType } from '../message/Message';
   styleUrls: ['./data-series-file-list.component.css']
 })
 export class DataSeriesFileListComponent implements OnInit {
-  private roles: string[];
-  private precision: number;
-  private dataSeriesFileDTOList: DataSeriesFileDTO[];
-  private selectedList: DataSeriesFileDTO[];
-  private isDisabledButton: boolean;
 
   constructor(
     private dataSeriesFileService: HttpDataSeriesFileService,
@@ -28,7 +23,23 @@ export class DataSeriesFileListComponent implements OnInit {
     private httpSeriesPropertiesService: HttpSeriesPropertiesService,
     private router: Router,
     private messageService: MessageService
-  ) { }
+  ) {
+  }
+  private roles: string[];
+  private precision: number;
+  private dataSeriesFileDTOList: DataSeriesFileDTO[];
+  private selectedList: DataSeriesFileDTO[];
+  private isDisabledButton: boolean;
+
+  static getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 
   ngOnInit() {
     this.tokenStorage.rolesObservable.subscribe(r => {
@@ -36,6 +47,7 @@ export class DataSeriesFileListComponent implements OnInit {
     });
 
     this.loadDataSeriesFile();
+    this.precision = 3;
   }
 
   private checkRoles(role: string) {
@@ -43,22 +55,22 @@ export class DataSeriesFileListComponent implements OnInit {
   }
 
   private openCreate(create, id: number) {
-    this.modalService.open(create, { ariaLabelledBy: 'create-series-properties' }).result.then((result) => {
+    this.modalService.open(create, {ariaLabelledBy: 'create-series-properties'}).result.then((result) => {
       this.precision = result;
       this.httpSeriesPropertiesService.postSeriesProperties(this.precision, id)
         .subscribe(data => {
           this.router.navigate(['/series-properties-detail', data.id]);
         });
     }, (reason) => {
-      console.log(`Dismissed ${this.getDismissReason(reason)}`);
+      console.log(`Dismissed ${DataSeriesFileListComponent.getDismissReason(reason)}`);
     });
   }
 
   private openDelete(deleted) {
-    this.modalService.open(deleted, { ariaLabelledBy: 'Delete-series-properties' }).result.then(() => {
+    this.modalService.open(deleted, {ariaLabelledBy: 'Delete-series-properties'}).result.then(() => {
       this.deletedSelected();
     }, (reason) => {
-      console.log(`Dismissed ${this.getDismissReason(reason)}`);
+      console.log(`Dismissed ${DataSeriesFileListComponent.getDismissReason(reason)}`);
     });
   }
 
@@ -71,11 +83,7 @@ export class DataSeriesFileListComponent implements OnInit {
     } else {
       this.selectedList.push(dataSeriesFileDTO);
     }
-    if (this.selectedList.length === 0) {
-      this.isDisabledButton = true;
-    } else {
-      this.isDisabledButton = false;
-    }
+    this.isDisabledButton = this.selectedList.length === 0;
   }
 
   private deletedSelected() {
@@ -103,16 +111,6 @@ export class DataSeriesFileListComponent implements OnInit {
     }
     this.selectedList = [];
     this.isDisabledButton = true;
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
   }
 
 }

@@ -1,5 +1,4 @@
 import { PointXY } from './PointXY';
-import { ThrowStmt } from '@angular/compiler';
 
 export class SeriesPropertiesDTO {
     public id: number;

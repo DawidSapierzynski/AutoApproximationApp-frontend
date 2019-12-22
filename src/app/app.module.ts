@@ -10,7 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
-import { AuthInterceptor } from '../app/auth/auth-interceptor';
+import { AuthInterceptor } from './auth/auth-interceptor';
 import { DataSeriesFileListComponent } from './data-series-file-list/data-series-file-list.component';
 import { SeriesPropertiesListUserComponent } from './series-properties/series-properties-list/series-properties-list.component';
 import { AddUserComponent } from './user/add-user/add-user.component';

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DataSeriesFileDTO } from '../../dto/DataSeriesFileDTO';
 import { SeriesPropertiesDTO } from '../../dto/SeriesPropertiesDTO';
 import { PointXY } from '../../dto/PointXY';
 import { ChosenMethodDTO } from '../../dto/ChosenMethodDTO';

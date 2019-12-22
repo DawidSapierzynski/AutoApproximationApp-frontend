@@ -10,45 +10,47 @@
   <h3>Properties of your data series:</h3>
   <table class="table table-striped">
     <thead>
-      <tr>
-        <th>Name</th>
-        <th>Value</th>
-      </tr>
+    <tr>
+      <th>Name</th>
+      <th>Value</th>
+    </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>Size</td>
-        <td>{{seriesProperties.size}}</td>
-      </tr>
-      <tr>
-        <td>Absolute error for polynomial approximation (m = 4)</td>
-        <td>{{seriesProperties.fastVariationPolynomial}}</td>
-      </tr>
-      <tr>
-        <td>Absolute error for trigonometric approximation (m = 2)</td>
-        <td>{{seriesProperties.fastVariationTrigonometric}}</td>
-      </tr>
-      <tr>
-        <td>fastVariation</td>
-        <td>{{seriesProperties.fastVariation}}</td>
-      </tr>
-      <tr>
-        <td>Variance</td>
-        <td>{{seriesProperties.variance}}</td>
-      </tr>
-      <tr>
-        <td>Standard deviation</td>
-        <td>{{seriesProperties.standardDeviation}}</td>
-      </tr>
-      <tr>
-        <td>Precision (1-5)</td>
-        <td>{{seriesProperties.precision}}</td>
-      </tr>
+    <tr>
+      <td>Size</td>
+      <td>{{seriesProperties.size}}</td>
+    </tr>
+    <tr>
+      <td>Absolute error for polynomial approximation (m = 4)</td>
+      <td>{{seriesProperties.fastVariationPolynomial}}</td>
+    </tr>
+    <tr>
+      <td>Absolute error for trigonometric approximation (m = 2)</td>
+      <td>{{seriesProperties.fastVariationTrigonometric}}</td>
+    </tr>
+    <tr>
+      <td>fastVariation</td>
+      <td>{{seriesProperties.fastVariation}}</td>
+    </tr>
+    <tr>
+      <td>Variance</td>
+      <td>{{seriesProperties.variance}}</td>
+    </tr>
+    <tr>
+      <td>Standard deviation</td>
+      <td>{{seriesProperties.standardDeviation}}</td>
+    </tr>
+    <tr>
+      <td>Precision (1-5)</td>
+      <td>{{seriesProperties.precision}}</td>
+    </tr>
     </tbody>
   </table>
   <br>
   <br>
-  <button class="btn btn-success" (click)="selectMethods()">Automatically choose the approximation method</button>
+  <button class="btn btn-success" [disabled]="roles.includes('ADMIN')" (click)="selectMethods()">
+    Automatically choose the approximation method
+  </button>
   <br>
   <br>
 </div>
@@ -57,22 +59,22 @@
   <h3>Chosen methods:</h3>
   <table class="table table-striped">
     <thead>
-      <tr>
-        <th>Name methods</th>
-        <th>Degree</th>
-        <th></th>
-      </tr>
+    <tr>
+      <th>Name methods</th>
+      <th>Degree</th>
+      <th></th>
+    </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let chosenMethod of chosenMethods">
-        <td>{{chosenMethod.method}}</td>
-        <td>{{chosenMethod.degree}}</td>
-        <td>
-          <button class="btn btn-success" disabled={{chosenMethod.isUsed}} (click)="doApproximations(chosenMethod)">
-            Choose
-          </button>
-        </td>
-      </tr>
+    <tr *ngFor="let chosenMethod of chosenMethods">
+      <td>{{chosenMethod.method}}</td>
+      <td>{{chosenMethod.degree}}</td>
+      <td>
+        <button class="btn btn-success" [disabled]=chosenMethod.isUsed (click)="doApproximations(chosenMethod)">
+          Choose
+        </button>
+      </td>
+    </tr>
     </tbody>
   </table>
   <br>
@@ -84,16 +86,16 @@
     <h3>{{approximationView.method}}:</h3>
     <table class="table table-striped">
       <thead>
-        <tr>
-          <th>Polynomial coefficients</th>
-          <th>Domain function</th>
-        </tr>
+      <tr>
+        <th>Polynomial coefficients</th>
+        <th>Domain function</th>
+      </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let mathematicalFunctionDTO of approximationView.mathematicalFunctionDTOs">
-          <td>{{coefficientsString(mathematicalFunctionDTO.polynomialDTO.coefficients)}}</td>
-          <td style="width: 12.5%">{{domainString(mathematicalFunctionDTO.domainFunction)}}</td>
-        </tr>
+      <tr *ngFor="let mathematicalFunctionDTO of approximationView.mathematicalFunctionDTOs">
+        <td>{{coefficientsString(mathematicalFunctionDTO.polynomialDTO.coefficients)}}</td>
+        <td style="width: 12.5%">{{domainString(mathematicalFunctionDTO.domainFunction)}}</td>
+      </tr>
       </tbody>
     </table>
     <button class="btn btn-info" (click)="download(approximationView.mathematicalFunctionDTOs)">

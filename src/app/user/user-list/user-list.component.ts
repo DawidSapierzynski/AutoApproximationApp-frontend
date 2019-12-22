@@ -13,10 +13,6 @@ import { Message, MessageType } from '../../message/Message';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
-  public userDTOList: UserDTO[];
-  private selectedList: UserDTO[];
-  private isDisabledButton: boolean;
-  private username: string;
 
   constructor(
     private userService: HttpUserService,
@@ -24,6 +20,20 @@ export class UserListComponent implements OnInit {
     private tokenStorageService: TokenStorageService,
     private messageService: MessageService
   ) {
+  }
+  public userDTOList: UserDTO[];
+  private selectedList: UserDTO[];
+  private isDisabledButton: boolean;
+  private username: string;
+
+  private static getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
   ngOnInit() {
@@ -37,7 +47,7 @@ export class UserListComponent implements OnInit {
     this.modalService.open(deleted, { ariaLabelledBy: 'Delete-user' }).result.then(() => {
       this.deletedSelected();
     }, (reason) => {
-      console.log(`Dismissed ${this.getDismissReason(reason)}`);
+      console.log(`Dismissed ${UserListComponent.getDismissReason(reason)}`);
     });
   }
 
@@ -50,11 +60,7 @@ export class UserListComponent implements OnInit {
     } else {
       this.selectedList.push(userDTO);
     }
-    if (this.selectedList.length === 0) {
-      this.isDisabledButton = true;
-    } else {
-      this.isDisabledButton = false;
-    }
+    this.isDisabledButton = this.selectedList.length === 0;
   }
 
   private loadUsers() {
@@ -76,16 +82,6 @@ export class UserListComponent implements OnInit {
           this.loadUsers();
         }
       );
-    }
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
     }
   }
 
