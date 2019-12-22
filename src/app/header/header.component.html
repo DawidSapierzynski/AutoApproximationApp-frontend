@@ -21,9 +21,13 @@
         <li *ngIf="roles.includes('ADMIN')">
           <a [routerLink]="['/add-user']" class="nav-link" routerLinkActive="router-link-active">Add user</a>
         </li>
+        <li *ngIf="roles.includes('USER') || roles.includes('ADMIN')">
+          <a [routerLink]="['/data-series-generator']" class="nav-link" routerLinkActive="router-link-active">Data
+            series generator</a>
+        </li>
       </ul>
 
-      <div class="col text-right" >
+      <div class="col text-right">
         <div *ngIf="!isLogged">
           <button [routerLink]="['/login']" class="btn btn-secondary">Login</button>
         </div>

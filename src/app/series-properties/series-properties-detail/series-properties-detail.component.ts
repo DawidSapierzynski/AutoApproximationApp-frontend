@@ -19,6 +19,19 @@ import {TokenStorageService} from '../../service/auth/token-storage.service';
 })
 export class SeriesPropertiesDetailComponent implements OnInit {
 
+  private fileName = 'approximationFile.txt';
+
+  private roles: string[];
+  private seriesProperties: SeriesPropertiesDTO;
+  private scatterChart: Chart;
+  private chosenMethods: ChosenMethodDTO[];
+  private approximationViews: ApproximationView[] = [];
+
+  private colors: string[] = ['yellow', 'green', 'black'];
+  private nbColor = 0;
+
+  private datasets = [];
+
   constructor(
     private route: ActivatedRoute,
     private httpSeriesPropertiesService: HttpSeriesPropertiesService,
@@ -26,18 +39,6 @@ export class SeriesPropertiesDetailComponent implements OnInit {
     private tokenStorage: TokenStorageService,
   ) {
   }
-
-  private roles: string[];
-  private seriesProperties: SeriesPropertiesDTO;
-  private scatterChart: Chart;
-  private chosenMethods: ChosenMethodDTO[];
-  private approximationViews: ApproximationView[] = [];
-  private fileName = 'approximationFile.txt';
-
-  private colors: string[] = ['yellow', 'green', 'black'];
-  private nbColor = 0;
-
-  private datasets = [];
 
   private static getChart(data) {
     return new Chart('scatterChart', {

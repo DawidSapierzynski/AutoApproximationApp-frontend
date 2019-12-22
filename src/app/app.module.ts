@@ -20,6 +20,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
 import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { MessageComponent } from './message/message.component';
+import { DataSeriesGeneratorComponent } from './data-series-generator/data-series-generator.component';
+import { MinValidatorDirective } from './validators/min-validator.directive';
+import { MaxValidatorDirective } from './validators/max-validator.directive';
+import { EqualValidatorDirective } from './validators/equal-validator.directive';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,11 @@ import { MessageComponent } from './message/message.component';
     UploadFileComponent,
     LoadingIndicatorComponent,
     UserDetailComponent,
-    MessageComponent
+    MessageComponent,
+    DataSeriesGeneratorComponent,
+    MinValidatorDirective,
+    MaxValidatorDirective,
+    EqualValidatorDirective,
   ],
   imports: [
     BrowserModule,

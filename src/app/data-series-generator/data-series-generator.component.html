@@ -1,0 +1,134 @@
+<div class="col-md-10">
+  <h2 class="text-center">Data series generator</h2>
+  <br>
+  <form name="form" (ngSubmit)="f.form.valid && generateDataSeries()" #f="ngForm" novalidate>
+    <div class="form-row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="numberOfCoefficients">Number of coefficients:</label>
+          <input type="number"
+                 name="numberOfCoefficients"
+                 id="numberOfCoefficients"
+                 [ngClass]="f.submitted && numberOfCoefficients.invalid ? 'form-control is-invalid' : 'form-control'"
+                 [(ngModel)]="numberCoefficients"
+                 min="2"
+                 max="100"
+                 step="1"
+                 #numberOfCoefficients="ngModel"
+                 (ngModelChange)="onChangeNumber(numberCoefficients)"
+                 appMinValidator="2"
+                 appMaxValidator="100"
+                 pattern="[0-9]*"
+                 required>
+          <div *ngIf="f.submitted && numberOfCoefficients.invalid" class="text-danger">
+            <div *ngIf="numberOfCoefficients.errors.required">Number of coefficients is required</div>
+            <div *ngIf="numberOfCoefficients.errors.min">Number of coefficients mustn't be less than 2</div>
+            <div *ngIf="numberOfCoefficients.errors.max">Number of coefficients must be no more than 100</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="numberPoints">Number of points in the series:</label>
+          <input type="number"
+                 name="numberPoints"
+                 id="numberPoints"
+                 [ngClass]="f.submitted && numberOfPoints.invalid ? 'form-control is-invalid' : 'form-control'"
+                 [(ngModel)]="generateDataSeriesForm.numberPoints"
+                 #numberOfPoints="ngModel"
+                 min="5"
+                 max="1000"
+                 step="1"
+                 appMinValidator="5"
+                 appMaxValidator="1000"
+                 pattern="[0-9]*"
+                 required>
+          <div *ngIf="f.submitted && numberOfPoints.invalid" class="text-danger">
+            <div *ngIf="numberOfPoints.errors.required">Number of points in the series is required</div>
+            <div *ngIf="numberOfPoints.errors.min">Number of points mustn't be less than 5</div>
+            <div *ngIf="numberOfPoints.errors.max">Number of points must be no more than 1000</div>
+          </div>
+        </div>
+        <div class="form-group custom-control custom-checkbox">
+          <input type="checkbox"
+                 class="custom-control-input"
+                 name="isTrigonometricPolynomial"
+                 id="isTrigonometricPolynomial"
+                 [checked]="generateDataSeriesForm.trigonometricPolynomial"
+                 [(ngModel)]="generateDataSeriesForm.trigonometricPolynomial">
+          <label for="isTrigonometricPolynomial" class="custom-control-label">Trigonometric polynomial</label>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="beginningInterval">Beginning of the range:</label>
+          <input type="number"
+                 name="beginningInterval"
+                 id="beginningInterval"
+                 [ngClass]="f.submitted && beginningInterval.invalid ? 'form-control is-invalid' : 'form-control'"
+                 [(ngModel)]="generateDataSeriesForm.mathematicalFunctionDTO.domainFunction.beginningInterval"
+                 #beginningInterval="ngModel"
+                 [appMaxValidator]="endInterval.value"
+                 [appEqualValidator]="endInterval.value"
+                 required>
+          <div *ngIf="f.submitted && beginningInterval.invalid" class="text-danger">
+            <div *ngIf="beginningInterval.errors.required">Beginning of the range is required</div>
+            <div *ngIf="beginningInterval.errors.max">The beginning of the range must be smaller than the end</div>
+            <div *ngIf="beginningInterval.errors.equal">The beginning of the range cannot equal the end</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="endInterval">End of the range:</label>
+          <input type="number"
+                 name="endInterval"
+                 id="endInterval"
+                 [ngClass]="f.submitted && endInterval.invalid ? 'form-control is-invalid' : 'form-control'"
+                 [(ngModel)]="generateDataSeriesForm.mathematicalFunctionDTO.domainFunction.endInterval"
+                 #endInterval="ngModel"
+                 [appMinValidator]="beginningInterval.value"
+                 [appEqualValidator]="beginningInterval.value"
+                 required>
+          <div *ngIf="f.submitted && endInterval.invalid" class="text-danger">
+            <div *ngIf="endInterval.errors.required">End of the range is required</div>
+            <div *ngIf="endInterval.errors.min">End of the range must be greater than the beginning</div>
+            <div *ngIf="endInterval.errors.equal">End of the range cannot equal the beginning</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group col-md-4" *ngIf="generateDataSeriesForm.mathematicalFunctionDTO.polynomialDTO.coefficients">
+      <label>Coefficients:</label>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          *ngFor="let coefficient of generateDataSeriesForm.mathematicalFunctionDTO.polynomialDTO.coefficients; index as i; trackBy:indexTracker">
+          <td>a{{i}}</td>
+          <td>
+            <input type="number"
+                   [name]="'coefficient'+i"
+                   [id]="'coefficient'+i"
+                   [ngClass]="f.submitted && coefficienti.invalid ? 'form-control is-invalid' : 'form-control'"
+                   [(ngModel)]="generateDataSeriesForm.mathematicalFunctionDTO.polynomialDTO.coefficients[i]"
+                   #coefficienti="ngModel"
+                   required>
+            <div *ngIf="f.submitted && coefficienti.invalid" class="text-danger">
+              <div *ngIf="coefficienti.errors.required">Coefficient is required</div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <br>
+    <button class="btn btn-success" [disabled]="isDisableButton">Generate</button>
+  </form>
+  <br>
+  <br>
+</div>

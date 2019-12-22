@@ -9,6 +9,7 @@ import { AddUserComponent } from './user/add-user/add-user.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 import { UserDetailComponent } from './user/user-detail/user-detail.component';
+import {DataSeriesGeneratorComponent} from './data-series-generator/data-series-generator.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'add-user', component: AddUserComponent, canActivate: [AuthGuardAdmin] },
   { path: 'user-list', component: UserListComponent, canActivate: [AuthGuardAdmin] },
   { path: 'user-detail/:id', component: UserDetailComponent, canActivate: [AuthGuard] },
+  { path: 'data-series-generator', component: DataSeriesGeneratorComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent }
 ];
 
