@@ -5,6 +5,8 @@ import {PolynomialDTO} from '../dto/PolynomialDTO';
 import {HttpDownloadService} from '../service/download/http-download.service';
 import {saveAs as importedSaveAs} from 'file-saver';
 import {GenerateDataSeriesForm} from '../dto/GenerateDataSeriesForm';
+import {MessageService} from '../service/message/message.service';
+import {Message, MessageType} from '../message/Message';
 
 @Component({
   selector: 'app-data-series-generator',
@@ -19,7 +21,10 @@ export class DataSeriesGeneratorComponent implements OnInit {
   private generateDataSeriesForm: GenerateDataSeriesForm;
   private numberCoefficients: number;
 
-  constructor(private downloadService: HttpDownloadService) {
+  constructor(
+    private downloadService: HttpDownloadService,
+    private messageService: MessageService
+    ) {
   }
 
   ngOnInit() {
@@ -37,8 +42,9 @@ export class DataSeriesGeneratorComponent implements OnInit {
     this.generateDataSeriesForm.mathematicalFunctionDTO.polynomialDTO.degree = this.getDegree();
     this.downloadService.generateDataSeries(this.generateDataSeriesForm).subscribe(
       blobParts => {
+        this.messageService.sendMessage(new Message('Generating data series completed successfully', MessageType.SUCCESS))
         importedSaveAs(blobParts, this.fileName);
-        this.ngOnInit()
+        this.ngOnInit();
       }
     );
   }
