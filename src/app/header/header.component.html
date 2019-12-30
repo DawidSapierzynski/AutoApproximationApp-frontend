@@ -8,8 +8,8 @@
           <a [routerLink]="['/upload-file']" class="nav-link" routerLinkActive="router-link-active">Upload file</a>
         </li>
         <li *ngIf="roles.includes('USER') || roles.includes('ADMIN')">
-          <a [routerLink]="['/data-series-file-list']" class="nav-link" routerLinkActive="router-link-active">File
-            list</a>
+          <a [routerLink]="['/data-series-file-list']" class="nav-link" routerLinkActive="router-link-active">Data
+            series list</a>
         </li>
         <li *ngIf="roles.includes('USER') || roles.includes('ADMIN')">
           <a [routerLink]="['/approximation-properties-list']" class="nav-link" routerLinkActive="router-link-active">Approximation
