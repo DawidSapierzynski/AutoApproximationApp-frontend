@@ -1,0 +1,53 @@
+<ng-template #deleted let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Do you want to delete the selected approximation
+      properties?</h4>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">Cancel
+    </button>
+    <button type="button" class="btn btn-danger" (click)="modal.close()">Delete</button>
+  </div>
+</ng-template>
+
+<div [class]="checkRoles('ADMIN') ? 'col-md-7' : 'col-md-5'">
+  <h3>Approximation properties list:</h3>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th></th>
+      <th>ID</th>
+      <th *ngIf="checkRoles('ADMIN')">User ID</th>
+      <th>Precision</th>
+      <th>Date create</th>
+      <th *ngIf="checkRoles('ADMIN')">Deleted</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let approximationPropertiesDTO of approximationPropertiesDTOList">
+      <th>
+        <input *ngIf="!approximationPropertiesDTO.deleted" type="checkbox" name={{approximationPropertiesDTO.id}}
+               (click)="selected(approximationPropertiesDTO)" value=approximationPropertiesDTO.deleted>
+      </th>
+      <td>{{approximationPropertiesDTO.id}}</td>
+      <td *ngIf="checkRoles('ADMIN')">{{approximationPropertiesDTO.userId}}</td>
+      <td>{{approximationPropertiesDTO.precision}}</td>
+      <td>{{approximationPropertiesDTO.dateCreate | date: 'dd-MM-yyyy, HH:mm:ss'}}</td>
+      <td *ngIf="checkRoles('ADMIN')">{{approximationPropertiesDTO.deleted}}</td>
+      <td>
+        <button [disabled]="approximationPropertiesDTO.deleted"
+                [routerLink]="['/approximation-properties-detail', approximationPropertiesDTO.id]"
+                class="btn btn-info">Detail
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <button class="btn btn-danger" [disabled]="isDisabledButton" (click)="openDelete(deleted)">Delete selected</button>
+  <br>
+  <br>
+  <br>
+  <br>
+</div>

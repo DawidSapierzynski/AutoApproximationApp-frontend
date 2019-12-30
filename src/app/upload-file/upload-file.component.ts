@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {HttpSeriesPropertiesService} from '../service/series-properties/http-series-properties.service';
+import {HttpApproximationPropertiesService} from '../service/approximation-properties/http-approximation-properties.service';
 import {Router} from '@angular/router';
 import {HttpDataSeriesFileService} from '../service/data-series-file/http-data-series-file.service';
 
@@ -19,7 +19,7 @@ export class UploadFileComponent implements OnInit {
   private isDisableButton: boolean;
 
   constructor(
-    private httpSeriesPropertiesService: HttpSeriesPropertiesService,
+    private approximationPropertiesService: HttpApproximationPropertiesService,
     private httpDataSeriesFileService: HttpDataSeriesFileService,
     private router: Router
   ) {
@@ -43,13 +43,13 @@ export class UploadFileComponent implements OnInit {
     }
   }
 
-  private createSeriesProperties(): void {
+  private createApproximationProperties(): void {
     this.isDisableButton = true;
     this.httpDataSeriesFileService.uploadDataSeriesFile(this.seriesDatesFile).subscribe(
       dateSeriesFile => {
-        this.httpSeriesPropertiesService.postSeriesProperties(this.precision, dateSeriesFile.id)
+        this.approximationPropertiesService.postApproximationProperties(this.precision, dateSeriesFile.id)
           .subscribe(data => {
-            this.router.navigate(['/series-properties-detail', data.id]);
+            this.router.navigate(['/approximation-properties-detail', data.id]);
           });
       }
     );

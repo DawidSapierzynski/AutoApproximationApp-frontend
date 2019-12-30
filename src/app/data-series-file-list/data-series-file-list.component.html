@@ -1,6 +1,6 @@
 <ng-template #create let-modal>
   <div class="modal-header">
-    <h4 class="modal-title text-center">Create series properties</h4>
+    <h4 class="modal-title text-center">Create approximation properties</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -31,7 +31,7 @@
     <h4 class="modal-title text-center" id="modal-basic-title">Do you want to delete the selected files?</h4>
   </div>
   <div class="modal-body">
-    <a>Deleting will delete related series properties.</a>
+    <a>Deleting will delete related approximation properties.</a>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-primary" aria-label="Close" (click)="modal.dismiss('Cross click')">Cancel
@@ -41,14 +41,19 @@
 </ng-template>
 
 
-<div class="col-md-6">
+<div [class]="checkRoles('ADMIN') ? 'col-md-11' : 'col-md-9'">
   <h3>File list:</h3>
   <table class="table table-striped ">
     <thead>
     <tr>
       <th></th>
       <th>ID</th>
+      <th *ngIf="checkRoles('ADMIN')">User ID</th>
       <th>Name</th>
+      <th>Size</th>
+      <th>Fast variation</th>
+      <th>Equidistant</th>
+      <th>Standard deviation</th>
       <th>Date sent</th>
       <th *ngIf="checkRoles('ADMIN')">Deleted</th>
       <th></th>
@@ -61,7 +66,12 @@
                (click)="selected(dataSeriesFileDTO)" value=dataSeriesFileDTO.deleted>
       </th>
       <td>{{dataSeriesFileDTO.id}}</td>
+      <td *ngIf="checkRoles('ADMIN')">{{dataSeriesFileDTO.userId}}</td>
       <td>{{dataSeriesFileDTO.name}}</td>
+      <td>{{dataSeriesFileDTO.size}}</td>
+      <td>{{dataSeriesFileDTO.fastVariation}}</td>
+      <td>{{dataSeriesFileDTO.equidistant}}</td>
+      <td>{{dataSeriesFileDTO.standardDeviation}}</td>
       <td>{{dataSeriesFileDTO.dateSent | date: 'dd-MM-yyyy, HH:mm:ss'}}</td>
       <td *ngIf="checkRoles('ADMIN')">{{dataSeriesFileDTO.deleted}}</td>
       <td>

@@ -15,11 +15,11 @@ export const DATA_SERIES_FILE_URL = {
   UPLOAD: '/dataSeriesFile'
 };
 
-export const SERIES_PROPERTIES_URL = {
-  BASE: '/seriesProperties',
-  GET_ONE: '/seriesProperties/',
-  GET_ADMIN: '/seriesProperties/all',
-  DELETE: '/seriesProperties/',
+export const APPROXIMATION_PROPERTIES_URL = {
+  BASE: '/approximationProperties',
+  GET_ONE: '/approximationProperties/',
+  GET_ADMIN: '/approximationProperties/all',
+  DELETE: '/approximationProperties/',
   CHOOSE_METHOD: '/chooseMethod',
   DO_APPROXIMATIONS: '/doApproximations'
 };

@@ -1,12 +1,12 @@
 <div style="text-align:center">
   <br>
   <h3>Chart with marked points:</h3>
-  <canvas [hidden]="!seriesProperties" id="scatterChart"></canvas>
+  <canvas [hidden]="!approximationProperties" id="scatterChart"></canvas>
   <br>
   <br>
 </div>
 
-<div class="col-md-6" *ngIf="!chosenMethods && seriesProperties">
+<div class="col-md-8" *ngIf="!chosenMethods && approximationProperties">
   <h3>Properties of your data series:</h3>
   <table class="table table-striped">
     <thead>
@@ -18,35 +18,39 @@
     <tbody>
     <tr>
       <td>Size</td>
-      <td>{{seriesProperties.size}}</td>
+      <td>{{approximationProperties.dataSeriesFileDTO.size}}</td>
     </tr>
     <tr>
-      <td>Absolute error for polynomial approximation (m = ceil(log(pow(size, 3))))</td>
-      <td>{{seriesProperties.fastVariationPolynomial}}</td>
+      <td>Number of artifacts</td>
+      <td>{{approximationProperties.dataSeriesFileDTO.artefacts.length}}</td>
     </tr>
     <tr>
-      <td>Absolute error for trigonometric approximation (m = ceil(log(pow(size, 3)) / 2))</td>
-      <td>{{seriesProperties.fastVariationTrigonometric}}</td>
+      <td>Absolute error for polynomial approximation (m = {{degreePolynomial}})</td>
+      <td>{{approximationProperties.dataSeriesFileDTO.fastVariationPolynomial}}</td>
+    </tr>
+    <tr>
+      <td>Absolute error for trigonometric approximation (m = {{degreeTrigonometric}})</td>
+      <td>{{approximationProperties.dataSeriesFileDTO.fastVariationTrigonometric}}</td>
     </tr>
     <tr>
       <td>Fast variation</td>
-      <td>{{seriesProperties.fastVariation}}</td>
-    </tr>
-    <tr>
-      <td>Variance</td>
-      <td>{{seriesProperties.variance}}</td>
-    </tr>
-    <tr>
-      <td>Standard deviation</td>
-      <td>{{seriesProperties.standardDeviation}}</td>
-    </tr>
-    <tr>
-      <td>Precision (1-5)</td>
-      <td>{{seriesProperties.precision}}</td>
+      <td>{{approximationProperties.dataSeriesFileDTO.fastVariation}}</td>
     </tr>
     <tr>
       <td>Equidistant</td>
-      <td>{{seriesProperties.equidistant}}</td>
+      <td>{{approximationProperties.dataSeriesFileDTO.equidistant}}</td>
+    </tr>
+    <tr>
+      <td>Variance</td>
+      <td>{{approximationProperties.dataSeriesFileDTO.variance}}</td>
+    </tr>
+    <tr>
+      <td>Standard deviation</td>
+      <td>{{approximationProperties.dataSeriesFileDTO.standardDeviation}}</td>
+    </tr>
+    <tr>
+      <td>Precision (1-5)</td>
+      <td>{{approximationProperties.precision}}</td>
     </tr>
     </tbody>
   </table>

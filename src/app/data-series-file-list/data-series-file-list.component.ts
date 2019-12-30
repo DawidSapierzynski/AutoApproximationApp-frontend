@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DataSeriesFileDTO} from '../dto/DataSeriesFileDTO';
 import {HttpDataSeriesFileService} from '../service/data-series-file/http-data-series-file.service';
 import {TokenStorageService} from '../service/auth/token-storage.service';
-import {HttpSeriesPropertiesService} from '../service/series-properties/http-series-properties.service';
+import {HttpApproximationPropertiesService} from '../service/approximation-properties/http-approximation-properties.service';
 import {Router} from '@angular/router';
 
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
@@ -20,11 +20,12 @@ export class DataSeriesFileListComponent implements OnInit {
     private dataSeriesFileService: HttpDataSeriesFileService,
     private tokenStorage: TokenStorageService,
     private modalService: NgbModal,
-    private httpSeriesPropertiesService: HttpSeriesPropertiesService,
+    private approximationPropertiesService: HttpApproximationPropertiesService,
     private router: Router,
     private messageService: MessageService
   ) {
   }
+
   private roles: string[];
   private precision: number;
   private dataSeriesFileDTOList: DataSeriesFileDTO[];
@@ -55,11 +56,11 @@ export class DataSeriesFileListComponent implements OnInit {
   }
 
   private openCreate(create, id: number) {
-    this.modalService.open(create, {ariaLabelledBy: 'create-series-properties'}).result.then((result) => {
+    this.modalService.open(create, {ariaLabelledBy: 'create-approximation-properties'}).result.then((result) => {
       this.precision = result;
-      this.httpSeriesPropertiesService.postSeriesProperties(this.precision, id)
+      this.approximationPropertiesService.postApproximationProperties(this.precision, id)
         .subscribe(data => {
-          this.router.navigate(['/series-properties-detail', data.id]);
+          this.router.navigate(['/approximation-properties-detail', data.id]);
         });
     }, (reason) => {
       console.log(`Dismissed ${DataSeriesFileListComponent.getDismissReason(reason)}`);
@@ -67,7 +68,7 @@ export class DataSeriesFileListComponent implements OnInit {
   }
 
   private openDelete(deleted) {
-    this.modalService.open(deleted, {ariaLabelledBy: 'Delete-series-properties'}).result.then(() => {
+    this.modalService.open(deleted, {ariaLabelledBy: 'Delete-approximation-properties'}).result.then(() => {
       this.deletedSelected();
     }, (reason) => {
       console.log(`Dismissed ${DataSeriesFileListComponent.getDismissReason(reason)}`);

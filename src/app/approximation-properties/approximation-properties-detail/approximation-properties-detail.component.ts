@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {HttpSeriesPropertiesService} from '../../service/series-properties/http-series-properties.service';
+import {HttpApproximationPropertiesService} from '../../service/approximation-properties/http-approximation-properties.service';
 import {ChosenMethodDTO} from '../../dto/ChosenMethodDTO';
-import {SeriesPropertiesDTO} from '../../dto/SeriesPropertiesDTO';
+import {ApproximationPropertiesDTO} from '../../dto/ApproximationPropertiesDTO';
 import {Chart} from 'chart.js';
 import 'chartjs-plugin-zoom';
 import {ApproximationView} from '../../dto/ApproximationView';
@@ -14,16 +14,18 @@ import {TokenStorageService} from '../../service/auth/token-storage.service';
 
 @Component({
   selector: 'app-series-properties',
-  templateUrl: './series-properties-detail.component.html',
-  styleUrls: ['./series-properties-detail.component.css']
+  templateUrl: './approximation-properties-detail.component.html',
+  styleUrls: ['./approximation-properties-detail.component.css']
 })
-export class SeriesPropertiesDetailComponent implements OnInit {
+export class ApproximationPropertiesDetailComponent implements OnInit {
 
   private fileName = 'approximationFile.txt';
 
   private roles: string[];
-  private seriesProperties: SeriesPropertiesDTO;
+  private approximationProperties: ApproximationPropertiesDTO;
   private scatterChart: Chart;
+  private degreePolynomial: number;
+  private degreeTrigonometric: number;
   private chosenMethods: ChosenMethodDTO[];
   private approximationViews: ApproximationView[] = [];
 
@@ -34,7 +36,7 @@ export class SeriesPropertiesDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private httpSeriesPropertiesService: HttpSeriesPropertiesService,
+    private approximationPropertiesService: HttpApproximationPropertiesService,
     private downloadService: HttpDownloadService,
     private tokenStorage: TokenStorageService,
   ) {
@@ -76,40 +78,42 @@ export class SeriesPropertiesDetailComponent implements OnInit {
     });
     this.route.params.subscribe(
       (queryparams: Params) => {
-        this.httpSeriesPropertiesService.getSeriesProperties(queryparams.id).subscribe(
+        this.approximationPropertiesService.getApproximationProperties(queryparams.id).subscribe(
           data => {
-            this.seriesProperties = data;
+            this.approximationProperties = data;
+            this.degreePolynomial = Math.ceil(Math.log(Math.pow(data.dataSeriesFileDTO.size, 3)));
+            this.degreeTrigonometric = Math.ceil(Math.log(Math.pow(data.dataSeriesFileDTO.size, 3)) / 2);
             this.chosenMethods = undefined;
             this.datasets = [{
               label: 'Points',
-              data: data.points,
+              data: data.dataSeriesFileDTO.points,
               borderColor: 'red',
               backgroundColor: 'red',
               borderWidth: 1.5
             }];
-            if (data.artefacts.length > 0) {
+            if (data.dataSeriesFileDTO.artefacts.length > 0) {
               this.datasets.push({
                 label: 'Artefacts',
-                data: data.artefacts,
+                data: data.dataSeriesFileDTO.artefacts,
                 borderColor: 'blue',
                 backgroundColor: 'blue',
                 borderWidth: 1.5
               });
             }
-            this.scatterChart = SeriesPropertiesDetailComponent.getChart(this.datasets);
+            this.scatterChart = ApproximationPropertiesDetailComponent.getChart(this.datasets);
           });
       });
   }
 
   private selectMethods(): void {
-    this.httpSeriesPropertiesService.selectMethods(this.seriesProperties)
+    this.approximationPropertiesService.selectMethods(this.approximationProperties)
       .subscribe(data => {
         this.chosenMethods = data;
       });
   }
 
   private doApproximations(chosenMethod: ChosenMethodDTO): void {
-    this.httpSeriesPropertiesService.doApproximations(chosenMethod, this.seriesProperties.points).subscribe(
+    this.approximationPropertiesService.doApproximations(chosenMethod, this.approximationProperties.dataSeriesFileDTO.points).subscribe(
       data => {
         this.approximationViews.push(new ApproximationView(data.mathematicalFunctionDTOs, chosenMethod.method));
         this.datasets.push({

@@ -1,15 +1,22 @@
-export class DataSeriesFileDTO {
-    public id: number;
-    public name: string;
-    public hashName: string;
-    public dateSent: Date;
-    public deleted: boolean;
+import {PointXY} from './PointXY';
 
-    constructor(id: number, name: string, hashName: string, dateSent: Date, deleted: boolean) {
-        this.id = id;
-        this.name = name;
-        this.hashName = hashName;
-        this.dateSent = dateSent;
-        this.deleted = deleted;
-    }
+export class DataSeriesFileDTO {
+  public id: number;
+  public userId: number;
+  public size: number;
+  public fastVariationPolynomial: number;
+  public fastVariationTrigonometric: number;
+  public fastVariation: boolean;
+  public variance: number;
+  public standardDeviation: number;
+  public equidistant: boolean;
+  public name: string;
+  public hashName: string;
+  public dateSent: Date;
+  public deleted: boolean;
+  public points: Array<PointXY>;
+  public artefacts: Array<PointXY>;
+
+  constructor() {
+  }
 }
