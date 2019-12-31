@@ -1,56 +1,59 @@
 <ng-template #deleted let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title text-center" id="modal-basic-title">Do you want to delete the selected users?
-        </h4>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary" aria-label="Close"
-            (click)="modal.dismiss('Cross click')">Cancel</button>
-        <button type="button" class="btn btn-danger" (click)="modal.close()">Delete</button>
-    </div>
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">Do you want to delete the selected users?
+    </h4>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" aria-label="Close"
+            (click)="modal.dismiss()">Cancel
+    </button>
+    <button type="button" class="btn btn-danger" (click)="modal.close()">Delete</button>
+  </div>
 </ng-template>
 
 
 <div class="col-md-7">
-    <h3>Users list:</h3>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th></th>
-                <th>ID</th>
-                <th>Login</th>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Email</th>
-                <th>Active</th>
-                <th>Deleted</th>
-                <th>Admin</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let userDTO of userDTOList">
-                <th>
-                    <input *ngIf="!userDTO.deleted && userDTO.login != username" type="checkbox" name={{userDTO.id}} (click)="selected(userDTO)"
-                        value=userDTO.deleted>
-                </th>
-                <td>{{userDTO.id}}</td>
-                <td>{{userDTO.login}}</td>
-                <td>{{userDTO.firstName}}</td>
-                <td>{{userDTO.lastName}}</td>
-                <td>{{userDTO.email}}</td>
-                <td>{{userDTO.active}}</td>
-                <td>{{userDTO.deleted}}</td>
-                <td>{{userDTO.admin}}</td>
-                <th>
-                    <button [disabled]="userDTO.deleted"
-                        [routerLink]="['/user-detail', userDTO.id]"
-                        class="btn btn-info">Detail</button>
-                </th>
-            </tr>
-        </tbody>
-    </table>
-    <button [disabled]="isDisabledButton" class="btn btn-danger" (click)="openDelete(deleted)">Delete selected</button>
-    <br>
-    <br>
+  <h3>Users list:</h3>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th></th>
+      <th>ID</th>
+      <th>Login</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Email</th>
+      <th>Active</th>
+      <th>Deleted</th>
+      <th>Admin</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let userDTO of userDTOList">
+      <th>
+        <input *ngIf="!userDTO.deleted && userDTO.login != username" type="checkbox" name={{userDTO.id}}
+               (click)="selected(userDTO)"
+               value=userDTO.deleted>
+      </th>
+      <td>{{userDTO.id}}</td>
+      <td>{{userDTO.login}}</td>
+      <td>{{userDTO.firstName}}</td>
+      <td>{{userDTO.lastName}}</td>
+      <td>{{userDTO.email}}</td>
+      <td>{{userDTO.active}}</td>
+      <td>{{userDTO.deleted}}</td>
+      <td>{{userDTO.admin}}</td>
+      <th>
+        <button [disabled]="userDTO.deleted"
+                [routerLink]="['/user-detail', userDTO.id]"
+                class="btn btn-info">Detail
+        </button>
+      </th>
+    </tr>
+    </tbody>
+  </table>
+  <button [disabled]="isDisabledButton" class="btn btn-danger" (click)="openDelete(deleted)">Delete selected</button>
+  <br>
+  <br>
 </div>

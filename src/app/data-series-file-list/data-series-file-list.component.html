@@ -1,7 +1,7 @@
 <ng-template #create let-modal>
   <div class="modal-header">
     <h4 class="modal-title text-center">Create approximation properties</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -34,7 +34,7 @@
     <a>Deleting will delete related approximation properties.</a>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" aria-label="Close" (click)="modal.dismiss('Cross click')">Cancel
+    <button type="button" class="btn btn-primary" aria-label="Close" (click)="modal.dismiss()">Cancel
     </button>
     <button type="button" class="btn btn-danger" (click)="modal.close(precision)">Delete</button>
   </div>
