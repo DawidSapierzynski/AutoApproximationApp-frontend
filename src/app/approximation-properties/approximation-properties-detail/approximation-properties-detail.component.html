@@ -91,7 +91,7 @@
 
 <div class="col-md-12" *ngIf="chosenMethods">
   <div *ngFor="let approximationView of approximationViews; let i = index">
-    <h3>{{approximationView.method}}:</h3>
+    <h3>{{approximationView.method}} (Absolute error = {{approximationView.absoluteError}}):</h3>
     <table class="table table-striped">
       <thead>
       <tr>

@@ -85,7 +85,7 @@ export class ApproximationPropertiesDetailComponent implements OnInit {
             this.degreeTrigonometric = Math.ceil(Math.log(Math.pow(data.dataSeriesFileDTO.size, 3)) / 2);
             this.chosenMethods = undefined;
             this.datasets = [{
-              label: 'Points',
+              label: 'Points (' + data.dataSeriesFileDTO.points.length + ')',
               data: data.dataSeriesFileDTO.points,
               borderColor: 'red',
               backgroundColor: 'red',
@@ -93,7 +93,7 @@ export class ApproximationPropertiesDetailComponent implements OnInit {
             }];
             if (data.dataSeriesFileDTO.artefacts.length > 0) {
               this.datasets.push({
-                label: 'Artefacts',
+                label: 'Artefacts (' + data.dataSeriesFileDTO.artefacts.length + ')',
                 data: data.dataSeriesFileDTO.artefacts,
                 borderColor: 'blue',
                 backgroundColor: 'blue',
@@ -115,7 +115,7 @@ export class ApproximationPropertiesDetailComponent implements OnInit {
   private doApproximations(chosenMethod: ChosenMethodDTO): void {
     this.approximationPropertiesService.doApproximations(chosenMethod, this.approximationProperties.dataSeriesFileDTO.points).subscribe(
       data => {
-        this.approximationViews.push(new ApproximationView(data.mathematicalFunctionDTOs, chosenMethod.method));
+        this.approximationViews.push(new ApproximationView(data.mathematicalFunctionDTOs, chosenMethod.method, data.absoluteError));
         this.datasets.push({
           label: chosenMethod.method + '(' + chosenMethod.degree + ')',
           data: data.points,
