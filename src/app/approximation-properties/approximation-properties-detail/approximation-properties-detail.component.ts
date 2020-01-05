@@ -81,8 +81,8 @@ export class ApproximationPropertiesDetailComponent implements OnInit {
         this.approximationPropertiesService.getApproximationProperties(queryparams.id).subscribe(
           data => {
             this.approximationProperties = data;
-            this.degreePolynomial = Math.ceil(Math.log(Math.pow(data.dataSeriesFileDTO.size, 3)));
-            this.degreeTrigonometric = Math.ceil(Math.log(Math.pow(data.dataSeriesFileDTO.size, 3)) / 2);
+            this.degreePolynomial = this.calculateDegreePolynomial(data.dataSeriesFileDTO.size);
+            this.degreeTrigonometric = this.calculateDegreeTrigonometric(data.dataSeriesFileDTO.size);
             this.chosenMethods = undefined;
             this.datasets = [{
               label: 'Points (' + data.dataSeriesFileDTO.points.length + ')',
@@ -157,6 +157,18 @@ export class ApproximationPropertiesDetailComponent implements OnInit {
       importedSaveAs(blobParts, this.fileName);
     });
 
+  }
+
+  private calculateDegreeTrigonometric(size: number): number {
+    const d = Math.ceil(Math.log(Math.pow(size, 3)));
+    const max = (size - size % 2) / 2;
+    return d > max ? max : d;
+  }
+
+  private calculateDegreePolynomial(size: number): number {
+    const d = Math.ceil(Math.log(Math.pow(size, 3)));
+    const max = size - 1;
+    return d > max ? max : d;
   }
 
 }
