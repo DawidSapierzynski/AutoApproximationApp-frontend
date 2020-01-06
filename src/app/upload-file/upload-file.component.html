@@ -7,6 +7,9 @@
       <input type="file" class="custom-file-input" (change)='handleFile($event.target.files)'
              placeholder="SeriesDatesFile" name="seriesDatesFile" [ngClass]="'form-control'" id="seriesDatesFile"
              accept=".csv,.txt" required>
+      <div *ngIf="maxError" class="text-danger">
+        <div>File size is more then {{maxSize}} bytes</div>
+      </div>
       <br>
     </div>
 

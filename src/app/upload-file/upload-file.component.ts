@@ -13,6 +13,8 @@ export class UploadFileComponent implements OnInit {
   @ViewChild('labelElement', {static: false})
   private labelElement: ElementRef;
 
+  private maxSize = 1048576;
+  private maxError = false;
   private labelName = 'Choose series date file';
   private precision: number;
   private seriesDatesFile: File;
@@ -32,11 +34,17 @@ export class UploadFileComponent implements OnInit {
 
   private handleFile(files: FileList) {
     if (files && files.length > 0) {
-      this.labelElement.nativeElement.innerText = Array.from(files)
-        .map(f => f.name)
-        .join(', ');
-      this.seriesDatesFile = files.item(0);
-      this.isDisableButton = false;
+      if (files.item(0).size > this.maxSize) {
+        this.isDisableButton = true;
+        this.maxError = true;
+      } else {
+        this.labelElement.nativeElement.innerText = Array.from(files)
+          .map(f => f.name)
+          .join(', ');
+        this.seriesDatesFile = files.item(0);
+        this.isDisableButton = false;
+        this.maxError = false;
+      }
     } else {
       this.labelElement.nativeElement.innerText = this.labelName;
       this.isDisableButton = true;
