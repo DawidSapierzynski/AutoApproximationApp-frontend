@@ -11,7 +11,7 @@
   </div>
 </ng-template>
 
-<div [class]="checkRoles('ADMIN') ? 'col-md-7' : 'col-md-5'">
+<div [class]="checkRoles('ADMIN') ? 'col-md-8' : 'col-md-6'">
   <h3>Approximation properties list:</h3>
   <table class="table table-striped">
     <thead>
@@ -19,6 +19,7 @@
       <th></th>
       <th>ID</th>
       <th *ngIf="checkRoles('ADMIN')">User ID</th>
+      <th>Data series ID</th>
       <th>Precision</th>
       <th>Date create</th>
       <th *ngIf="checkRoles('ADMIN')">Deleted</th>
@@ -33,6 +34,7 @@
       </th>
       <td>{{approximationPropertiesDTO.id}}</td>
       <td *ngIf="checkRoles('ADMIN')">{{approximationPropertiesDTO.userId}}</td>
+      <td>{{approximationPropertiesDTO.dataSeriesFileId}}</td>
       <td>{{approximationPropertiesDTO.precision}}</td>
       <td>{{approximationPropertiesDTO.dateCreate | date: 'dd-MM-yyyy, HH:mm:ss'}}</td>
       <td *ngIf="checkRoles('ADMIN')">{{approximationPropertiesDTO.deleted}}</td>
