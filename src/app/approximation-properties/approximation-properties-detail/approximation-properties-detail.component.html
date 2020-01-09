@@ -56,7 +56,7 @@
   </table>
   <br>
   <br>
-  <button class="btn btn-success" [disabled]="roles.includes('ADMIN')" (click)="selectMethods()">
+  <button class="btn btn-success" [disabled]="!roles.includes('USER')" (click)="selectMethods()">
     Automatically choose the approximation method
   </button>
   <br>
