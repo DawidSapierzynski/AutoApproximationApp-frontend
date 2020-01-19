@@ -4,12 +4,11 @@ export class DataSeriesFileDTO {
   public id: number;
   public userId: number;
   public size: number;
-  public fastVariationPolynomial: number;
-  public fastVariationTrigonometric: number;
-  public fastVariation: boolean;
+  public errorPolynomial: number;
+  public errorTrigonometric: number;
+  public periodicity: boolean;
   public variance: number;
   public standardDeviation: number;
-  public equidistant: boolean;
   public name: string;
   public hashName: string;
   public dateSent: Date;
