@@ -161,7 +161,7 @@ export class ApproximationPropertiesDetailComponent implements OnInit {
 
   private calculateDegreeTrigonometric(size: number): number {
     const d = Math.ceil(Math.log(Math.pow(size, 3)));
-    const max = (size - 1) / 2;
+    const max = Math.floor((size - 1) / 2);
     return d > max ? max : d;
   }
 
